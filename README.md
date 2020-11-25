@@ -46,6 +46,20 @@ Public and Home Safety , Infant Monitoring, Patient Monitoring, Exam Monitoring 
 
 ## Desgin and Implementation
 
+Here are some of the screenshots for our project.
+
+## Login
+
+The below sreenshot shows the login page. Here the user has to enter the login details to enter the page where he/she can create stream and broadcast it.
+
+<img src="https://github.com/progressivePRV/LiveLIVE_Security_Streaming_Service/blob/main/Images/login.png" alt="pLogin Page" width="210" height="430">
+
+## Face Verification
+
+The next authentication that we are using is face verification where the user has to capture his face for verification. The screenshot below displays the screen.
+
+<img src="https://github.com/progressivePRV/LiveLIVE_Security_Streaming_Service/blob/main/Images/faceverification.png" alt="pLogin Page" width="210" height="430">
+
 ## Using Microsoft Azure Face Service
 
 For Face recognition which is one of our authentication,
@@ -68,6 +82,18 @@ https://{endpoint}/face/v1.0/verify <br/>
 • If the faces are identical, our app will grant
 access to the user. <br/>
 
+## Add User
+
+This screen is for adding the users who are elligible for viewing the streams.
+
+<img src="https://github.com/progressivePRV/LiveLIVE_Security_Streaming_Service/blob/main/Images/adduser.png" alt="pLogin Page" width="210" height="430">
+
+## Broadcast
+
+This screen is for adding the users who are bradcasting the live stream.
+
+<img src="https://github.com/progressivePRV/LiveLIVE_Security_Streaming_Service/blob/main/Images/bradcast.png" alt="pLogin Page" width="210" height="430">
+
 ## Using Live Switch SDK and API
 
 • In order to live stream and view content we will be using
@@ -77,6 +103,26 @@ POST: https://api.liveswitch.io/ApplicationConfigs with the created API key
 It returns the application ID, gateway URL and the shared secret ID as response.
 Using these we can create a livestream.
 • when the user wants to view the livestream then clicking on the app checks if the user is registered or not using the authentication steps explained before and shows the list of channels that the user is authorized to see.
+
+## Create Stream
+
+The below screenshot shows how the create stream page in the app looks like.
+
+<img src="https://github.com/progressivePRV/LiveLIVE_Security_Streaming_Service/blob/main/Images/createstream.png" alt="pLogin Page" width="210" height="430">
+
+
+## Live Screen
+
+The below screenshot shows how the live screen page in the app looks like.
+
+<img src="https://github.com/progressivePRV/LiveLIVE_Security_Streaming_Service/blob/main/Images/livescreen.png" alt="pLogin Page" width="210" height="430">
+
+
+## Streamlist
+
+The below screenshot shows how the Stream list in the app looks like. This depends on the logged in user. Only the channels availble/authorized for the user is displayed here.
+
+<img src="https://github.com/progressivePRV/LiveLIVE_Security_Streaming_Service/blob/main/Images/adduser.png" alt="pLogin Page" width="210" height="430">
 
 ## Permissions
 
