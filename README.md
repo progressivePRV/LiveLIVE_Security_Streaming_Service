@@ -22,14 +22,9 @@ the livestream.
 • Allows user to enter into any livestream he or
 she is authorized to
 
-## Use cases
-
-Public and Home Safety 
-Infant Monitoring 
-Patient Monitoring 
-Exam Monitoring
-
 ## Features
+
+The main features of this aim includes
 
 • The live streaming app will create and broadcast a live stream and assign
 authorized users to the live stream (only authorized users can view the live
@@ -47,25 +42,31 @@ authorized to monitor.
 • They can pick any of the streams and start viewing the content the link is
 streaming for surveillance
 
+Public and Home Safety , Infant Monitoring, Patient Monitoring, Exam Monitoring are the main use cases for this app
+
+## Desgin and Implementation
+
 ## Using Microsoft Azure Face Service
+
+For Face recognition which is one of our authentication,
 
 • We will be using the Face API provided by
 Microsoft Cognitive Services for verifying a user
 • User will save an image while registering to the
-app
+app <br/>
 • Whenever a user tries to login to the app, they
-will need to click a photo via the app.
+will need to click a photo via the app. <br/>
 • This photo will be compared with the saved user
-photo using Microsoft face API.
+photo using Microsoft face API. <br/>
 • The Face API determines if two photos belong to
-the same person.
+the same person. <br/>
 • Face – Detect endpoint : generate face IDs
-https://{endpoint}/face/v1.0/detect
+https://{endpoint}/face/v1.0/detect <br/>
 • Face – Verify endpoint : determine if the two face
-ids belong to the same person.
+ids belong to the same person. <br/>
 https://{endpoint}/face/v1.0/verify
 • If the faces are identical, our app will grant
-access to the user
+access to the user. <br/>
 
 ## Using Wowza Streaming Cloud API
 
