@@ -39,9 +39,7 @@ match the user profile picture uploaded while creating an account.
 
 • In the viewing app, users can view a list of live video streams they are
 authorized to monitor.
-• The users can assign favorite to any channels. Clicking on the favorites option enables the user to go to different activity where the list of favorites are displayed as shown.
-
-<img src="https://github.com/progressivePRV/LiveLIVE_Security_Streaming_Service/blob/main/Images/fav.png" alt="pLogin Page" width="210" height="430">
+• The users can assign favorite to any channels. Clicking on the favorites option enables the user to go to different activity where the list of favorites are displayed as shown below in the Favorites screen section.
 
 • They can pick any of the streams and start viewing the content the link is
 streaming for surveillance
@@ -127,6 +125,12 @@ The below screenshot shows how the live screen page in the app looks like.
 The below screenshot shows how the Stream list in the app looks like. This depends on the logged in user. Only the channels availble/authorized for the user is displayed here.
 
 <img src="https://github.com/progressivePRV/LiveLIVE_Security_Streaming_Service/blob/main/Images/adduser.png" alt="pLogin Page" width="210" height="430">
+
+## Favorite Streamlist
+
+The below screenshot shows how the favorite Stream list in the app looks like. This depends on the logged in user. Only the channels set as favorite by the user is displayed here.
+
+<img src="https://github.com/progressivePRV/LiveLIVE_Security_Streaming_Service/blob/main/Images/fav.png" alt="pLogin Page" width="210" height="430">
 
 ## Permissions
 
