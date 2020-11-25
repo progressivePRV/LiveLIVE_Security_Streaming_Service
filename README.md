@@ -10,7 +10,7 @@ We are having two apps that we are going to develop.
 
 ### • User App
 
-1) Livestream App
+## 1) Livestream App
 
 • App will allow authorized users to have video
 security surveillance of their desired
@@ -23,7 +23,7 @@ authorized users to the live stream viewing list.
 
 • Livestreams the broadcasted video in real time.
 
-2) User App
+## 2) User App
 
 • Only registered users with their login
 credentials and their face are allowed to view
