@@ -39,6 +39,10 @@ match the user profile picture uploaded while creating an account.
 
 • In the viewing app, users can view a list of live video streams they are
 authorized to monitor.
+• The users can assign favorite to any channels. Clicking on the favorites option enables the user to go to different activity where the list of favorites are displayed as shown.
+
+<img src="https://github.com/progressivePRV/LiveLIVE_Security_Streaming_Service/blob/main/Images/fav.png" alt="pLogin Page" width="210" height="430">
+
 • They can pick any of the streams and start viewing the content the link is
 streaming for surveillance
 
@@ -92,7 +96,7 @@ This screen is for adding the users who are elligible for viewing the streams.
 
 This screen is for adding the users who are bradcasting the live stream.
 
-<img src="https://github.com/progressivePRV/LiveLIVE_Security_Streaming_Service/blob/main/Images/bradcast.png" alt="pLogin Page" width="210" height="430">
+<img src="https://github.com/progressivePRV/LiveLIVE_Security_Streaming_Service/blob/main/Images/broadcast.png" alt="pLogin Page" width="210" height="430">
 
 ## Using Live Switch SDK and API
 
