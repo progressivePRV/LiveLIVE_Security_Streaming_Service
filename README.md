@@ -178,9 +178,9 @@ concern for everyone.
 
 ## External Links:
 
-[XD Prototype User App](https://xd.adobe.com/view/f3a1ceb6-249b-49e4-9e2e-b4c966ab3a31-a6f2/)
+[XD Prototype of User App](https://xd.adobe.com/view/f3a1ceb6-249b-49e4-9e2e-b4c966ab3a31-a6f2/)
 
-[XD Prototype Streaming App](https://xd.adobe.com/view/a27c3731-8312-45a7-8d8a-01f12889dbfc-f72f/)
+[XD Prototype of Streaming App](https://xd.adobe.com/view/a27c3731-8312-45a7-8d8a-01f12889dbfc-f72f/)
 
 [Trello Task Board](https://trello.com/b/Q1uXwhJK/amad-board)
 
