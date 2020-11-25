@@ -176,3 +176,11 @@ security challenges people face in this pandemic. It will help people adapt fast
 NORMAL, making it a popular app, as the security of our loved ones and our property/valuables is a primary
 concern for everyone.
 
+## External Links:
+
+[XD Prototype User App](https://xd.adobe.com/view/f3a1ceb6-249b-49e4-9e2e-b4c966ab3a31-a6f2/)
+
+[XD Prototype Streaming App](https://xd.adobe.com/view/a27c3731-8312-45a7-8d8a-01f12889dbfc-f72f/)
+
+[Trello Task Board](https://trello.com/b/Q1uXwhJK/amad-board)
+
