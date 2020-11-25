@@ -6,8 +6,8 @@ LiveLive is a security broadcasting and streaming tool for people which is used 
 
 We are having two apps that we are going to develop.
 
-1) Livestream App
-2) User App
+• Livestream App
+• User App
 
 1) Livestream App
 
