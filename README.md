@@ -1,17 +1,24 @@
 # LiveLIVE_Security_Streaming_Service
 
-## Introduction
+## About the Application
+
+LiveLive is a security broadcasting and streaming tool for people which is used in many use cases and can attract many potential users. The main functionalities of the app is explained as follows
 
 • App will allow authorized users to have video
 security surveillance of their desired
 properties/valuables.
+
 • Creates a live streaming session and assigns
 authorized users to the live stream viewing list.
+
 • Broadcasts the video feed in real time.
+
 • Livestreams the broadcasted video in real time.
+
 • Only registered users with their login
 credentials and their face are allowed to view
 the livestream.
+
 • Allows user to enter into any livestream he or
 she is authorized to
 
