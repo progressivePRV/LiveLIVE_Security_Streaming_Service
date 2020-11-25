@@ -63,34 +63,24 @@ the same person. <br/>
 • Face – Detect endpoint : generate face IDs
 https://{endpoint}/face/v1.0/detect <br/>
 • Face – Verify endpoint : determine if the two face
-ids belong to the same person. <br/>
-https://{endpoint}/face/v1.0/verify
+ids belong to the same person. 
+https://{endpoint}/face/v1.0/verify <br/>
 • If the faces are identical, our app will grant
 access to the user. <br/>
 
-## Using Wowza Streaming Cloud API
+## Using Live Switch SDK and API
 
 • In order to live stream and view content we will be using
-Wowza Streaming Could REST API.
-• GoCoder SDK : encoder required to build a live streaming
-app in Android. Will help broadcast video content.
-• Create live stream: create live stream for video
-broadcasting.
-POST: https://apisandbox.cloud.wowza.com/api/v1.5/live_streams
-• Start live stream: start broadcasting video content on
-created live stream
-PUT: https://apisandbox.cloud.wowza.com/api/v1.5/live_streams/{id}/start
-• Stop live stream: endpoint will stop start broadcasting video
-content on created live stream
-PUT: https://apisandbox.cloud.wowza.com/api/v1.5/live_streams/{id}/stop
-• Delete live stream : endpoint will delete the created
-livestream.
-DELETE: https://apisandbox.cloud.wowza.com/api/v1.5/live_streams/{id}
-• Get playback URL/player from live stream to display live
-stream to users. Play the live streaming using
-WOWZPlayerView. 
+Live Switch SDK and their API.
+• Live Switch SDK : This sdk is useful to create a live stream channel where all the users can join
+POST: https://api.liveswitch.io/ApplicationConfigs with the created API key
+It returns the application ID, gateway URL and the shared secret ID as response.
+Using these we can create a livestream.
+• when the user wants to view the livestream then clicking on the app checks if the user is registered or not using the authentication steps explained before and shows the list of channels that the user is authorized to see.
 
 ## Permissions
+
+The android permissions that we need are
 
 CAMERA
 INTERNET
@@ -99,18 +89,22 @@ MODIFY_AUDIO_SETTINGS
 FLASHLIGHT
 
 
-## How can this app make money ?
+## Conclusion
+
+The main app of building this app was
 
 • The recent COVID pandemic has led to inadequate patient surveillance and has caused an increase in
 crimes against patients in hospitals. Our app can provide a solution to this by allowing authorized hospital
 staff and family members to monitor patients remotely.
+
 • In a time of work from home culture, new parents can experience a lack of properly monitoring of their
 infant in the house. This app will allow these parents to monitoring their infants remotely while working and
 attending meetings. It can also be used as a nanny cam if parent are out for work
-.
+
 • COVID has caused people to increase their online shopping on a daily basis. Goods being delivered and left
 at the doorstep has led to increase in theft. Homeowners can monitor their doors for such activities using our
 app. It can also be used for pets and other property surveillance.
+
 • Taking all this into consideration, we can say that this app will provide a one stop solution for many new
 security challenges people face in this pandemic. It will help people adapt faster and effectively to this NEW
 NORMAL, making it a popular app, as the security of our loved ones and our property/valuables is a primary
