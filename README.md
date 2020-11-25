@@ -4,6 +4,13 @@
 
 LiveLive is a security broadcasting and streaming tool for people which is used in many use cases and can attract many potential users. The main functionalities of the app is explained as follows
 
+We are having two apps that we are going to develop.
+
+1) Livestream App
+2) User App
+
+1) Livestream App
+
 • App will allow authorized users to have video
 security surveillance of their desired
 properties/valuables.
@@ -15,12 +22,16 @@ authorized users to the live stream viewing list.
 
 • Livestreams the broadcasted video in real time.
 
+2) User App
+
 • Only registered users with their login
 credentials and their face are allowed to view
 the livestream.
 
 • Allows user to enter into any livestream he or
 she is authorized to
+
+• Allows user to set favorites for the livestream channels.
 
 ## Features
 
@@ -50,19 +61,19 @@ Public and Home Safety , Infant Monitoring, Patient Monitoring, Exam Monitoring 
 
 Here are some of the screenshots for our project.
 
-## Login
+## Login - Livestream App
 
 The below sreenshot shows the login page. Here the user has to enter the login details to enter the page where he/she can create stream and broadcast it.
 
 <img src="https://github.com/progressivePRV/LiveLIVE_Security_Streaming_Service/blob/main/Images/login.png" alt="pLogin Page" width="210" height="430">
 
-## Face Verification
+## Face Verification - User App
 
 The next authentication that we are using is face verification where the user has to capture his face for verification. The screenshot below displays the screen.
 
 <img src="https://github.com/progressivePRV/LiveLIVE_Security_Streaming_Service/blob/main/Images/faceverification.png" alt="pLogin Page" width="210" height="430">
 
-## Using Microsoft Azure Face Service
+## Using Microsoft Azure Face Service 
 
 For Face recognition which is one of our authentication,
 
@@ -84,19 +95,19 @@ https://{endpoint}/face/v1.0/verify <br/>
 • If the faces are identical, our app will grant
 access to the user. <br/>
 
-## Add User
+## Add User - Livestream App
 
 This screen is for adding the users who are elligible for viewing the streams.
 
 <img src="https://github.com/progressivePRV/LiveLIVE_Security_Streaming_Service/blob/main/Images/adduser.png" alt="pLogin Page" width="210" height="430">
 
-## Broadcast
+## Broadcast - Livestream App
 
 This screen is for adding the users who are bradcasting the live stream.
 
 <img src="https://github.com/progressivePRV/LiveLIVE_Security_Streaming_Service/blob/main/Images/broadcast.png" alt="pLogin Page" width="210" height="430">
 
-## Using Live Switch SDK and API
+## Using Live Switch SDK and API (Livestream App and User App)
 
 • In order to live stream and view content we will be using
 Live Switch SDK and their API.
@@ -106,27 +117,27 @@ It returns the application ID, gateway URL and the shared secret ID as response.
 Using these we can create a livestream.
 • when the user wants to view the livestream then clicking on the app checks if the user is registered or not using the authentication steps explained before and shows the list of channels that the user is authorized to see.
 
-## Create Stream
+## Create Stream - Livestream App
 
 The below screenshot shows how the create stream page in the app looks like.
 
 <img src="https://github.com/progressivePRV/LiveLIVE_Security_Streaming_Service/blob/main/Images/createstream.png" alt="pLogin Page" width="210" height="430">
 
 
-## Live Screen
+## Live Screen - User App
 
 The below screenshot shows how the live screen page in the app looks like.
 
 <img src="https://github.com/progressivePRV/LiveLIVE_Security_Streaming_Service/blob/main/Images/livescreen.png" alt="pLogin Page" width="210" height="430">
 
 
-## Streamlist
+## Streamlist - User App
 
 The below screenshot shows how the Stream list in the app looks like. This depends on the logged in user. Only the channels availble/authorized for the user is displayed here.
 
 <img src="https://github.com/progressivePRV/LiveLIVE_Security_Streaming_Service/blob/main/Images/adduser.png" alt="pLogin Page" width="210" height="430">
 
-## Favorite Streamlist
+## Favorite Streamlist - User App
 
 The below screenshot shows how the favorite Stream list in the app looks like. This depends on the logged in user. Only the channels set as favorite by the user is displayed here.
 
