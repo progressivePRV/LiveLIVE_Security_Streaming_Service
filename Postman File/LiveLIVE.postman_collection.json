@@ -9,9 +9,24 @@
 			"name": "streamDetails",
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "X-API-Key",
+						"value": "40-af-57-0d-2d-f2-ca-fc-0b-af-0f-f7-3f-73-97-0d",
+						"type": "text"
+					}
+				],
 				"url": {
-					"raw": ""
+					"raw": "https://api.liveswitch.io/ApplicationConfigs",
+					"protocol": "https",
+					"host": [
+						"api",
+						"liveswitch",
+						"io"
+					],
+					"path": [
+						"ApplicationConfigs"
+					]
 				}
 			},
 			"response": []
