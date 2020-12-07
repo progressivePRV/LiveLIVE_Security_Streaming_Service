@@ -1,0 +1,21 @@
+{
+	"info": {
+		"_postman_id": "26420a7a-a1cd-442f-bd60-41e0f503dd52",
+		"name": "LiveLIVE",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "streamDetails",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
