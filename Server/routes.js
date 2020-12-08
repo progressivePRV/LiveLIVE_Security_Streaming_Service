@@ -131,6 +131,7 @@ route.post("/admins",[
         newUser.channelId = null;
         newUser.channelName = null;
         newUser.users=[];
+        newUser.isBroadcasting = false;
 
         channelsCollection.insertOne(newUser,(err,res)=>{
             var result={};
@@ -158,6 +159,50 @@ route.post("/admins",[
         return response.status(400).json({"error":error});
     }
 }); 
+
+route.put('/admin/broadcasting',[
+    body('isBroadcasting','isBroadcasting boolean needs to be specified').notEmpty().isBoolean()
+],(request,response)=>{
+
+    const err = validationResult(request);
+    if(!err.isEmpty()){
+        closeConnection();
+        return response.status(400).json({"error":err});
+    }
+
+    if(!channel.channelId){
+        closeConnection();
+        return response.status(400).json({"error":'admin has no channel to start/stop broadcasting','errorCode':121});
+    }
+
+    if(channel.isBroadcasting==true && request.body.isBroadcasting==true){
+        closeConnection();
+        return response.status(400).json({"error":'channel is already broadcasting. cannot start broadcasting again','errorCode':131});
+    }
+
+    if(channel.isBroadcasting==false && request.body.isBroadcasting==false){
+        closeConnection();
+        return response.status(400).json({"error":'channel is not broadcasting. cannot stop broadcasting again','errorCode':131});
+    }
+
+    var updatedData={
+        "isBroadcasting":request.body.isBroadcasting
+    };
+
+    var query={"_id":new mongo.ObjectID(channel._id)};
+    var newQuery = {$set : updatedData}; 
+
+    channelsCollection.updateOne(query,newQuery,(userErr,userRes)=>{
+        if(userErr){
+            closeConnection();
+            return response.status(400).json({"error":userErr,'errorCode':101});
+        }
+
+        closeConnection();
+        return response.status(200).json({"result":'broadcasting updated'});
+        
+    });
+})
 
 route.get("/login/users",[
     header("Authorization","Authorization header required to login").notEmpty().trim()
@@ -582,6 +627,148 @@ route.get('/user/profile',(request,response)=>{
     closeConnection();
     return response.status(200).json(userProfile);
 });
+
+route.post('/admin/verifyFace',[
+    body('url',"url required for image verification").notEmpty().trim(),
+    body('url',"url should be a url").isURL()
+],async(request,response)=>{
+
+    const err = validationResult(request);
+    if(!err.isEmpty()){
+        closeConnection();
+        return response.status(400).json({"error":err});
+    }
+
+    try{
+        const res1 = await axios.post('https://westcentralus.api.cognitive.microsoft.com/face/v1.0/detect',
+        {
+            'url':request.body.url
+        },
+        {
+            headers:{
+                'Ocp-Apim-Subscription-Key':'c173784504ce4312b8502df2c6b1cd25',
+                'Content-Type':'application/json'
+            }
+        });
+
+        if(!res1 || !res1.data){
+            closeConnection();
+            return response.status(400).json({"error":'images could not be processed. Please try again','errorCode':123});
+        }
+        if(!Array.isArray(res1.data) || res1.data.length!=1){
+            closeConnection();
+            return response.status(400).json({"error":'images either contain no faces or more than one face. Please try again','errorCode':123});
+        }
+        if(!res1.data[0].faceId){
+            closeConnection();
+            return response.status(400).json({"error":'images could not be processed. Please try again','errorCode':123});
+        }
+
+        closeConnection();
+        return response.status(200).json({"result":'image has a valid face'});
+
+    }
+    catch(e){
+        closeConnection();
+        //console.log(e);
+        return response.status(400).json({"error":e.toString(),'errorCode':124});
+    }
+})
+
+
+
+route.post('/user/verifyFace',[
+    body('url1',"url 1 required for image verification").notEmpty().trim(),
+    body('url1',"url 1 should be a url").isURL(),
+    body('url2',"url 2 required for image verification").notEmpty().trim(),
+    body('url2',"url 2 should be a url").isURL(),
+],async(request,response)=>{
+
+    //url mandatory now. Write code to componse firebase URL here.
+    //var url1 = "https://firebasestorage.googleapis.com/v0/b/faceverification-8f16a.appspot.com/o/image_1.jpg?alt=media&token=ea40b220-be43-40f0-84bf-facdf9826907";
+    //var url2 = "https://firebasestorage.googleapis.com/v0/b/faceverification-8f16a.appspot.com/o/image_2.jpg?alt=media&token=b5ac1888-398f-4b61-bc34-26eab88538d4";
+
+    const err = validationResult(request);
+    if(!err.isEmpty()){
+        closeConnection();
+        return response.status(400).json({"error":err});
+    }
+
+    try{
+        const res1 = await axios.post('https://westcentralus.api.cognitive.microsoft.com/face/v1.0/detect',
+        {
+            'url':request.body.url1
+            //'url':url1
+        },
+        {
+            headers:{
+                'Ocp-Apim-Subscription-Key':'c173784504ce4312b8502df2c6b1cd25',
+                'Content-Type':'application/json'
+            }
+        });
+
+        const res2 = await axios.post('https://westcentralus.api.cognitive.microsoft.com/face/v1.0/detect',
+        {
+            'url':request.body.url2
+            //'url':url2
+        },
+        {
+            headers:{
+                'Ocp-Apim-Subscription-Key':'c173784504ce4312b8502df2c6b1cd25',
+                'Content-Type':'application/json'
+            }
+        });
+
+        //console.log(res1.data);
+
+        if(!res1 || !res2 || !res1.data || !res2.data ){
+            closeConnection();
+            return response.status(400).json({"error":'images could not be processed. Please try again','errorCode':123});
+        }
+        if(!Array.isArray(res1.data) || !Array.isArray(res2.data) || res1.data.length!=1 || res2.data.length!=1){
+            closeConnection();
+            return response.status(400).json({"error":'images either contain no faces or more than one face. Please try again','errorCode':123});
+        }
+        if(!res1.data[0].faceId || !res2.data[0].faceId){
+            closeConnection();
+            return response.status(400).json({"error":'images could not be processed. Please try again','errorCode':123});
+        }
+
+        const verifyRes = await axios.post('https://westcentralus.api.cognitive.microsoft.com/face/v1.0/verify',
+        {
+            "faceId1":res1.data[0].faceId,
+            "faceId2":res2.data[0].faceId
+        },
+        {
+            headers:{
+                'Ocp-Apim-Subscription-Key':'c173784504ce4312b8502df2c6b1cd25',
+                'Content-Type':'application/json'
+            }
+        });
+
+        //console.log(verifyRes.data);
+
+        if(!verifyRes || !verifyRes.data || !verifyRes.data.confidence){
+            closeConnection();
+            return response.status(400).json({"error":'images could not be verified. Please try again','errorCode':123});
+        }
+
+        if(verifyRes.data.isIdentical){
+            if(verifyRes.data.confidence >= 0.75){
+                closeConnection();
+                return response.status(200).json({"isFaceSame":true});
+            }
+        }
+        closeConnection();
+        return response.status(200).json({"isFaceSame":false});
+
+    }
+    catch(e){
+        closeConnection();
+        //console.log(e);
+        return response.status(400).json({"error":e.toString(),'errorCode':124});
+    }
+})
 
 function hasDuplicates(array) {
     return (new Set(array)).size !== array.length;

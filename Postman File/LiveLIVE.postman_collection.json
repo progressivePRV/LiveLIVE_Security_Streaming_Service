@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "26420a7a-a1cd-442f-bd60-41e0f503dd52",
+		"_postman_id": "bacf0a46-abca-434c-9296-1532771e3e6e",
 		"name": "LiveLIVE",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -26,6 +26,579 @@
 					],
 					"path": [
 						"ApplicationConfigs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get admin profile",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmNkN2IyMjEyZTQ1NDU3MTZhM2UwZTMiLCJleHAiOjE2MDczODk2MjYsImlhdCI6MTYwNzMwMzIyNn0.IoEypkzCYYau81YEuRMd2-gqKfbtg4CO7sT0SpDYwiQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "206.81.0.65:3000/api/v1/admin/profile",
+					"host": [
+						"206",
+						"81",
+						"0",
+						"65"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"admin",
+						"profile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get user profile",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmNkOGU1ODA1NTRmOTU5NGFhNTQ0MTMiLCJleHAiOjE2MDczMjYwNDksImlhdCI6MTYwNzMyMjQ0OX0.K5m_4xeBjVLR9UmDTQypfHGYqenJHp2bFrtsq2vioHk",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "206.81.0.65:3000/api/v1/user/profile",
+					"host": [
+						"206",
+						"81",
+						"0",
+						"65"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"user",
+						"profile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get user channels",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmNkOGU1ODA1NTRmOTU5NGFhNTQ0MTMiLCJleHAiOjE2MDczMjYwNDksImlhdCI6MTYwNzMyMjQ0OX0.K5m_4xeBjVLR9UmDTQypfHGYqenJHp2bFrtsq2vioHk",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "206.81.0.65:3000/api/v1/user/channels?channelName=es",
+					"host": [
+						"206",
+						"81",
+						"0",
+						"65"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"user",
+						"channels"
+					],
+					"query": [
+						{
+							"key": "channelName",
+							"value": "es"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get application config",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "apiKey",
+						"value": "40-af-57-0d-2d-f2-ca-fc-0b-af-0f-f7-3f-73-97-0d",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "206.81.0.65:3000/api/v1/appConfig",
+					"host": [
+						"206",
+						"81",
+						"0",
+						"65"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"appConfig"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete admin channel",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmNkN2IyMjEyZTQ1NDU3MTZhM2UwZTMiLCJleHAiOjE2MDczODk2MjYsImlhdCI6MTYwNzMwMzIyNn0.IoEypkzCYYau81YEuRMd2-gqKfbtg4CO7sT0SpDYwiQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "206.81.0.65:3000/api/v1/admin/channels",
+					"host": [
+						"206",
+						"81",
+						"0",
+						"65"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"admin",
+						"channels"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update admin channel",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmNkN2IyMjEyZTQ1NDU3MTZhM2UwZTMiLCJleHAiOjE2MDczODk2MjYsImlhdCI6MTYwNzMwMzIyNn0.IoEypkzCYYau81YEuRMd2-gqKfbtg4CO7sT0SpDYwiQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"channelName\":\"channel123\",\n \"users\":[\n     \"aditi@gmail.com\",\n     \"anirban@gmail.com\"\n ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "206.81.0.65:3000/api/v1/admin/channels",
+					"host": [
+						"206",
+						"81",
+						"0",
+						"65"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"admin",
+						"channels"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get admin channel",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmNkN2IyMjEyZTQ1NDU3MTZhM2UwZTMiLCJleHAiOjE2MDczODk2MjYsImlhdCI6MTYwNzMwMzIyNn0.IoEypkzCYYau81YEuRMd2-gqKfbtg4CO7sT0SpDYwiQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "206.81.0.65:3000/api/v1/admin/channels",
+					"host": [
+						"206",
+						"81",
+						"0",
+						"65"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"admin",
+						"channels"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create admin channel",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmNmMTViNTA0OTk5Mzc3ODVlZDI5YzYiLCJleHAiOjE2MDc0OTM0NDMsImlhdCI6MTYwNzQwNzA0M30.vfZXMbOc-wnnLOO1JXblTvrTQrYo4pWdlgckLdHsq8w",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"channelName\":\"new channel\",\n    \"channelId\":\"789011\",\n    \"users\":[\n        \"aditi@gmail.com\",\n        \"anirban@gmail.com\"\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "206.81.0.65:3000/api/v1/admin/channels",
+					"host": [
+						"206",
+						"81",
+						"0",
+						"65"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"admin",
+						"channels"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create users (admin)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmNkN2IyMjEyZTQ1NDU3MTZhM2UwZTMiLCJleHAiOjE2MDczODk2MjYsImlhdCI6MTYwNzMwMzIyNn0.IoEypkzCYYau81YEuRMd2-gqKfbtg4CO7sT0SpDYwiQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\":\"anirban acharya\",\n    \"age\":\"25\",\n    \"email\":\"anirban@gmail.com\",\n    \"password\":\"user123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "206.81.0.65:3000/api/v1/admin/users",
+					"host": [
+						"206",
+						"81",
+						"0",
+						"65"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"admin",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login users",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "anirban@gmail.com",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "user123",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "206.81.0.65:3000/api/v1/login/users",
+					"host": [
+						"206",
+						"81",
+						"0",
+						"65"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"login",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login admin",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "new_admin",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "admin123",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "206.81.0.65:3000/api/v1/login/admins",
+					"host": [
+						"206",
+						"81",
+						"0",
+						"65"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"login",
+						"admins"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create admin",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\":\"new_admin\",\n    \"password\":\"admin123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "206.81.0.65:3000/api/v1/admins",
+					"host": [
+						"206",
+						"81",
+						"0",
+						"65"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"admins"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Updating broadcasting status",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmNmMTViNTA0OTk5Mzc3ODVlZDI5YzYiLCJleHAiOjE2MDc0OTM0NDMsImlhdCI6MTYwNzQwNzA0M30.vfZXMbOc-wnnLOO1JXblTvrTQrYo4pWdlgckLdHsq8w",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"isBroadcasting\":false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "206.81.0.65:3000/api/v1/admin/broadcasting",
+					"host": [
+						"206",
+						"81",
+						"0",
+						"65"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"admin",
+						"broadcasting"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Verify face for Admin (whether an image has only 1 face or not)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmNkY2FkNjNhNWExNTYxOGRjZGM0ZTIiLCJleHAiOjE2MDc0OTIxMzYsImlhdCI6MTYwNzQwNTczNn0.bz6rsZ2QoypIqWFrGR1RuQAvDB-2GoQsu4rn6R8R1g8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"url\":\"https://firebasestorage.googleapis.com/v0/b/faceverification-8f16a.appspot.com/o/image_1.jpg?alt=media&token=ea40b220-be43-40f0-84bf-facdf9826907\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "206.81.0.65:3000/api/v1/admin/verifyFace",
+					"host": [
+						"206",
+						"81",
+						"0",
+						"65"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"admin",
+						"verifyFace"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Verify 2 faces similarity for users",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmNkOGU1ODA1NTRmOTU5NGFhNTQ0MTMiLCJleHAiOjE2MDc0MDcyNjksImlhdCI6MTYwNzQwMzY2OX0.5WWd09HnTjFxkv9t77LEr3URWdVyndUt_nszLlXIP5A",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"url1\":\"https://firebasestorage.googleapis.com/v0/b/faceverification-8f16a.appspot.com/o/image_1.jpg?alt=media&token=ea40b220-be43-40f0-84bf-facdf9826907\",\n    \"url2\":\"https://firebasestorage.googleapis.com/v0/b/faceverification-8f16a.appspot.com/o/image_2.jpg?alt=media&token=b5ac1888-398f-4b61-bc34-26eab88538d4\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "206.81.0.65:3000/api/v1/user/verifyFace",
+					"host": [
+						"206",
+						"81",
+						"0",
+						"65"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"user",
+						"verifyFace"
 					]
 				}
 			},
