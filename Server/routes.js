@@ -104,6 +104,13 @@ var isAuthorisedAdmin = function(request,response,next){
     }
 };
 
+var isFaceVerified = function(request,response,next){
+    if(!decoded || !decoded.isFaceSame){
+        closeConnection();
+        return response.status(400).json({"error":'Dual factor authentication incomplete. User not authorized'});
+    }
+    next();
+}
 const route = express.Router();
 
 route.use("/admin",verifyToken);
@@ -240,7 +247,7 @@ route.get("/login/users",[
                             result=user;
                             delete result.password;
                             user={'_id' : user._id};
-                            user.exp = Math.floor(Date.now() / 1000) + (60 * 60);
+                            user.exp = Math.floor(Date.now() / 1000) + (5 * 60);
                             var token = jwt.sign(user, tokenSecret);
                             result.token=token;
                             responseCode=200;
@@ -586,7 +593,8 @@ route.get('/appConfig',[
     }
 });
 
-route.get('/user/channels',(request,response)=>{
+route.get('/user/channels',isFaceVerified,(request,response)=>{
+
     var query = {
         users:loggedInUser.email
     }
@@ -620,7 +628,7 @@ route.get('/admin/profile',(request,response)=>{
      return response.status(200).json(adminUser);
 });
 
-route.get('/user/profile',(request,response)=>{
+route.get('/user/profile',isFaceVerified,(request,response)=>{
     var userProfile = loggedInUser;
     delete userProfile.password;
 
@@ -755,8 +763,13 @@ route.post('/user/verifyFace',[
 
         if(verifyRes.data.isIdentical){
             if(verifyRes.data.confidence >= 0.75){
+
+                var user={'_id' : loggedInUser._id,'isFaceSame':true};
+                user.exp = Math.floor(Date.now() / 1000) + (60 * 60);
+                var token = jwt.sign(user, tokenSecret);
+
                 closeConnection();
-                return response.status(200).json({"isFaceSame":true});
+                return response.status(200).json({"isFaceSame":true,'token':token});
             }
         }
         closeConnection();
