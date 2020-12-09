@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">LiveLive(Recorder)</string>
+    <string name="endPointUrl">http://206.81.0.65:3000/</string>
+    <string name="Email">Email</string>
+    <string name="password">Password</string>
+
+    <string name="Signin">Login</string>
 </resources>

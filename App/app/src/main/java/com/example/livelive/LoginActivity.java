@@ -50,9 +50,7 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseStorage storage;
     private FirebaseFirestore db;
     private StorageReference storageRef;
-    private ImageButton imageButton;
     private boolean isTakenPhoto = false;
-    private String url1;
 
     Gson gson =  new Gson();
     SharedPreferences preferences;

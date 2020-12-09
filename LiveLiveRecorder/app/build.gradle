@@ -50,4 +50,9 @@ dependencies {
     implementation "androidx.camera:camera-lifecycle:$camerax_version"
 // CameraX View class
     implementation "androidx.camera:camera-view:1.0.0-alpha14"
+
+    implementation 'com.google.code.gson:gson:2.8.6'
+
+    //OkHttp
+    implementation("com.squareup.okhttp3:okhttp:4.4.0")
 }
