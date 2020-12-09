@@ -215,10 +215,18 @@ public class CreateNewChannelActivity extends AppCompatActivity implements UserL
                     root = new JSONObject(s);
                     if(isStatus){
                         Toast.makeText(CreateNewChannelActivity.this, root.getString("result"), Toast.LENGTH_SHORT).show();
-                        Intent i = new Intent();
-                        i.putExtra("admin",admin);
-                        setResult(RESULT_OK,i);
-                        finish();
+                        if(getIntent().hasExtra("admin")) {
+                            Intent i = new Intent();
+                            i.putExtra("admin", admin);
+                            setResult(RESULT_OK, i);
+                            finish();
+                        }else{
+                            //we should finish this activity and call the channel indfoactivity.
+                            Intent intent = new Intent(CreateNewChannelActivity.this, ChannelInfo.class);
+                            intent.putExtra("Admin_Obj",admin);
+                            startActivity(intent);
+                            finish();
+                        }
                     }else{
                         Toast.makeText(CreateNewChannelActivity.this, root.getString("error"), Toast.LENGTH_SHORT).show();
                     }
