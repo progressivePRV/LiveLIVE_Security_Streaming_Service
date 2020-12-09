@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
 }
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 29
@@ -39,6 +40,8 @@ dependencies {
     implementation files('libs\\fm.liveswitch.opus.jar')
     implementation files('libs\\fm.liveswitch.vpx.jar')
     implementation files('libs\\fm.liveswitch.yuv.jar')
+    implementation 'com.google.firebase:firebase-storage:19.2.0'
+    implementation 'com.google.firebase:firebase-firestore:22.0.0'
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
@@ -55,4 +58,6 @@ dependencies {
 
     //OkHttp
     implementation("com.squareup.okhttp3:okhttp:4.4.0")
+    implementation platform('com.google.firebase:firebase-bom:26.1.1')
+    implementation 'com.google.firebase:firebase-analytics'
 }

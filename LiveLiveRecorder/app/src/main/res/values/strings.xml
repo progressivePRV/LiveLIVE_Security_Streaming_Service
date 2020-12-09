@@ -5,4 +5,15 @@
     <string name="password">Password</string>
 
     <string name="Signin">Login</string>
+    <string name="stream_name">Enter Stream Name</string>
+    <string name="add_user">Add</string>
+    <string name="enter_user_name">Enter User Name</string>
+    <string name="create_user">Create User</string>
+    <string name="create_stream">Create Stream</string>
+
+    <string name="signUp">Add User</string>
+    <string name="FirstName">Name</string>
+    <string name="Male">Male</string>
+    <string name="Female">Female</string>
+    <string name="Age">Age</string>
 </resources>
