@@ -685,28 +685,17 @@ route.post('/admin/verifyFace',[
 
 
 
-route.post('/user/verifyFace',[
-    body('url1',"url 1 required for image verification").notEmpty().trim(),
-    body('url1',"url 1 should be a url").isURL(),
-    body('url2',"url 2 required for image verification").notEmpty().trim(),
-    body('url2',"url 2 should be a url").isURL(),
-],async(request,response)=>{
+route.get('/user/verifyFace',async(request,response)=>{
 
     //url mandatory now. Write code to componse firebase URL here.
-    //var url1 = "https://firebasestorage.googleapis.com/v0/b/faceverification-8f16a.appspot.com/o/image_1.jpg?alt=media&token=ea40b220-be43-40f0-84bf-facdf9826907";
-    //var url2 = "https://firebasestorage.googleapis.com/v0/b/faceverification-8f16a.appspot.com/o/image_2.jpg?alt=media&token=b5ac1888-398f-4b61-bc34-26eab88538d4";
-
-    const err = validationResult(request);
-    if(!err.isEmpty()){
-        closeConnection();
-        return response.status(400).json({"error":err});
-    }
+    var url1 = "https://firebasestorage.googleapis.com/v0/b/faceverification-8f16a.appspot.com/o/image_"+loggedInUser._id+"_original.jpg?alt=media";
+    var url2 = "https://firebasestorage.googleapis.com/v0/b/faceverification-8f16a.appspot.com/o/image_"+loggedInUser._id+"_copy.jpg?alt=media";
 
     try{
         const res1 = await axios.post('https://westcentralus.api.cognitive.microsoft.com/face/v1.0/detect',
         {
-            'url':request.body.url1
-            //'url':url1
+            //'url':request.body.url1
+            'url':url1
         },
         {
             headers:{
@@ -717,8 +706,8 @@ route.post('/user/verifyFace',[
 
         const res2 = await axios.post('https://westcentralus.api.cognitive.microsoft.com/face/v1.0/detect',
         {
-            'url':request.body.url2
-            //'url':url2
+            //'url':request.body.url2
+            'url':url2
         },
         {
             headers:{
@@ -761,8 +750,10 @@ route.post('/user/verifyFace',[
             return response.status(400).json({"error":'images could not be verified. Please try again','errorCode':123});
         }
 
+        //console.log(verifyRes.data);
+
         if(verifyRes.data.isIdentical){
-            if(verifyRes.data.confidence >= 0.75){
+            //if(verifyRes.data.confidence >= 0.75){
 
                 var user={'_id' : loggedInUser._id,'isFaceSame':true};
                 user.exp = Math.floor(Date.now() / 1000) + (60 * 60);
@@ -770,7 +761,7 @@ route.post('/user/verifyFace',[
 
                 closeConnection();
                 return response.status(200).json({"isFaceSame":true,'token':token});
-            }
+            //}
         }
         closeConnection();
         return response.status(200).json({"isFaceSame":false});
