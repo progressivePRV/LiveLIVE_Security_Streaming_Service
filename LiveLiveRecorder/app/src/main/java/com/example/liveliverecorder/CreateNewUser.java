@@ -192,7 +192,7 @@ public class CreateNewUser extends AppCompatActivity {
                     .build();
             Request request = new Request.Builder()
                     .url(getResources().getString(R.string.endPointUrl)+"api/v1/admin/users")
-                    .header("Authorization", "Bearer "+ preferences.getString("ADMIN_TOKEN_KEY", null))
+                    .header("Authorization", "Bearer "+ preferences.getString("TOKEN_KEY", null))
                     .post(formBody)
                     .build();
             String responseValue = null;
@@ -324,11 +324,11 @@ public class CreateNewUser extends AppCompatActivity {
 
             Request request = new Request.Builder()
                     .url(getResources().getString(R.string.endPointUrl)+"api/v1/user/verifyFace")
-                    .header("Authorization", "Bearer "+ preferences.getString("ADMIN_TOKEN_KEY", null))
+                    .header("Authorization", "Bearer "+ preferences.getString("TOKEN_KEY", null))
                     .post(formBody)
                     .build();
 
-            Log.d("demo","authorization is : " +preferences.getString("ADMIN_TOKEN_KEY", null));
+            Log.d("demo","authorization is : " +preferences.getString("TOKEN_KEY", null));
             String responseValue = null;
             try (Response response = client.newCall(request).execute()) {
                 if(response.isSuccessful()){
