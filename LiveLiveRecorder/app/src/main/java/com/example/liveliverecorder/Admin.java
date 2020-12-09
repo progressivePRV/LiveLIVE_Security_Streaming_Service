@@ -17,7 +17,7 @@ public class Admin implements Serializable {
 //            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmNmMTViNTA0OTk5Mzc3ODVlZDI5YzYiLCJleHAiOjE2MDc1ODkwNjAsImlhdCI6MTYwNzUwMjY2MH0.oot0F9pBwtFKhaVVnHd3lXkGT2_B4YiPHlVLUfWqQS8"
 
     String _id, username, channelId, channelName, token;
-    ArrayList<String> userList = new ArrayList<>();
+    ArrayList<String> users = new ArrayList<>();
     boolean isBroadcasting;
 
 
@@ -30,7 +30,7 @@ public class Admin implements Serializable {
                 ", channelId='" + channelId + '\'' +
                 ", channelName='" + channelName + '\'' +
                 ", token='" + token + '\'' +
-                ", userList=" + userList +
+                ", userList=" + users +
                 ", isBroadcasting=" + isBroadcasting +
                 '}';
     }

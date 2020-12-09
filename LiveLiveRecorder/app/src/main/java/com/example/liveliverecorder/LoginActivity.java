@@ -142,11 +142,17 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putString("ADMIN",gson.toJson(admin));
                     editor.commit();
                     hideProgressBarDialog();
-                    Intent i = new Intent(LoginActivity.this,ChannelInfo.class);
-                    i.putExtra("Admin_Obj",admin);
-                    startActivity(i);
-                    Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
-                    finish();
+                    if(admin.channelId == null){
+                        Intent intent = new Intent(LoginActivity.this, CreateNewChannelActivity.class);
+                        startActivity(intent);
+                    }else{
+                        Intent i = new Intent(LoginActivity.this,ChannelInfo.class);
+                        i.putExtra("Admin_Obj",admin);
+                        startActivity(i);
+                        Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+
                 }else{
                     //It means that they are some error while signing up.
                     hideProgressBarDialog();

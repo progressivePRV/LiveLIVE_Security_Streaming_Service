@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -23,10 +24,12 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHo
     private static final String TAG = "okay";
     ArrayList<String> users = new ArrayList<>();
     public static InteractWithRecyclerView interact;
+    boolean isEdit;
 
-    public UserListAdapter(ArrayList<String> users, Context ctx) {
+    public UserListAdapter(ArrayList<String> users, Context ctx, boolean isEdit) {
         this.users = users;
         interact = (InteractWithRecyclerView) ctx;
+        this.isEdit = isEdit;
     }
 
     @NonNull
@@ -41,6 +44,12 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHo
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         String userName = users.get(position);
         holder.textViewUserName.setText(userName);
+
+        if(isEdit){
+            holder.imageButton.setVisibility(Button.VISIBLE);
+        }else{
+            holder.imageButton.setVisibility(Button.INVISIBLE);
+        }
 
         holder.imageButton.setOnClickListener(new View.OnClickListener() {
             @Override

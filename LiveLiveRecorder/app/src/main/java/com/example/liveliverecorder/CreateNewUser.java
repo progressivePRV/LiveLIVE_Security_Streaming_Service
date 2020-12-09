@@ -112,8 +112,8 @@ public class CreateNewUser extends AppCompatActivity {
         findViewById(R.id.buttonCancel).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //delete the user
-
+                //already the uploaded user is deleted so finishing here
+                finish();
             }
         });
     }
@@ -323,7 +323,7 @@ public class CreateNewUser extends AppCompatActivity {
                     .build();
 
             Request request = new Request.Builder()
-                    .url(getResources().getString(R.string.endPointUrl)+"api/v1/user/verifyFace")
+                    .url(getResources().getString(R.string.endPointUrl)+"api/v1/admin/verifyFace")
                     .header("Authorization", "Bearer "+ preferences.getString("TOKEN_KEY", null))
                     .post(formBody)
                     .build();
@@ -353,7 +353,7 @@ public class CreateNewUser extends AppCompatActivity {
                 Log.d("demo",result);
                 root = new JSONObject(result);
 //                Log.d("demo",root.getString("result"));
-                if(!isStatus){
+                if(isStatus){
                     //It means that the face is valid
                     //going on to the next step
                     Toast.makeText(CreateNewUser.this, "Face is verified.", Toast.LENGTH_SHORT).show();
