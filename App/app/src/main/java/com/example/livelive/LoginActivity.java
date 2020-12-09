@@ -19,6 +19,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -282,17 +284,15 @@ public class LoginActivity extends AppCompatActivity {
                 Log.d("demo",result);
                 root = new JSONObject(result);
                 if(isStatus){
-                    hideProgressBarDialog();
                     if(root.getString("isFaceSame").equals("true")){
                         preferences = getApplicationContext().getSharedPreferences("TokeyKey",0);
                         editor = preferences.edit();
                         editor.putString("TOKEN_KEY",root.getString("token"));
                         Toast.makeText(LoginActivity.this, "Face Verified", Toast.LENGTH_SHORT).show();
                         editor.commit();
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        startActivity(intent);
-                        finish();
+                        deleteTheFaceImage();
                     }else{
+                        hideProgressBarDialog();
                         Toast.makeText(LoginActivity.this, "Face not authorized. Please try again", Toast.LENGTH_SHORT).show();
                     }
                 }else{
@@ -305,6 +305,30 @@ public class LoginActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+    }
+
+    private void deleteTheFaceImage() {
+        String imagePath = "image_"+preferences.getString("ID", null)+"_copy.jpg";
+        final StorageReference imageRepo = storageRef.child(imagePath);
+        imageRepo.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                // File deleted successfully
+                hideProgressBarDialog();
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+                Log.d(TAG, "onSuccess: deleted file");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Uh-oh, an error occurred!
+                hideProgressBarDialog();
+                Toast.makeText(LoginActivity.this, "Error occured in Face Verification. Please try again", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "onFailure: did not delete file");
+            }
+        });
     }
 
     //for showing the progress dialog
