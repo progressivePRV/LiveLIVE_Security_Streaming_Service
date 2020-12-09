@@ -3,6 +3,7 @@ package com.example.liveliverecorder;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -141,7 +142,11 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putString("ADMIN",gson.toJson(admin));
                     editor.commit();
                     hideProgressBarDialog();
+                    Intent i = new Intent(LoginActivity.this,ChannelInfo.class);
+                    i.putExtra("Admin_Obj",admin);
+                    startActivity(i);
                     Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
+                    finish();
                 }else{
                     //It means that they are some error while signing up.
                     hideProgressBarDialog();

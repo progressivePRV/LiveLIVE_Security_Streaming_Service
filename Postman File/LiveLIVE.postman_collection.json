@@ -73,7 +73,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmNkOGU1ODA1NTRmOTU5NGFhNTQ0MTMiLCJleHAiOjE2MDczMjYwNDksImlhdCI6MTYwNzMyMjQ0OX0.K5m_4xeBjVLR9UmDTQypfHGYqenJHp2bFrtsq2vioHk",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmNkOGU1ODA1NTRmOTU5NGFhNTQ0MTMiLCJpc0ZhY2VTYW1lIjp0cnVlLCJleHAiOjE2MDc0NzA2NzcsImlhdCI6MTYwNzQ2NzA3N30.Dlva9bhGxXqC39BrHpq0jiKyLqMnZK6RB0HKxennIeg",
 							"type": "string"
 						}
 					]
@@ -107,7 +107,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmNkOGU1ODA1NTRmOTU5NGFhNTQ0MTMiLCJleHAiOjE2MDczMjYwNDksImlhdCI6MTYwNzMyMjQ0OX0.K5m_4xeBjVLR9UmDTQypfHGYqenJHp2bFrtsq2vioHk",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmNkOGU1ODA1NTRmOTU5NGFhNTQ0MTMiLCJpc0ZhY2VTYW1lIjp0cnVlLCJleHAiOjE2MDc0NzAyODAsImlhdCI6MTYwNzQ2NjY4MH0.5xlql1xsBmYu7Qj7CzxerDP1kkhWs3KfYc9GfO9COVE",
 							"type": "string"
 						}
 					]
@@ -115,7 +115,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "206.81.0.65:3000/api/v1/user/channels?channelName=es",
+					"raw": "206.81.0.65:3000/api/v1/user/channels",
 					"host": [
 						"206",
 						"81",
@@ -132,7 +132,8 @@
 					"query": [
 						{
 							"key": "channelName",
-							"value": "es"
+							"value": "es",
+							"disabled": true
 						}
 					]
 				}
@@ -569,7 +570,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmNkOGU1ODA1NTRmOTU5NGFhNTQ0MTMiLCJleHAiOjE2MDc0MDcyNjksImlhdCI6MTYwNzQwMzY2OX0.5WWd09HnTjFxkv9t77LEr3URWdVyndUt_nszLlXIP5A",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmNkOGU1ODA1NTRmOTU5NGFhNTQ0MTMiLCJleHAiOjE2MDc0ODUzNjQsImlhdCI6MTYwNzQ4NTA2NH0.i83GTpXALDu3XGxbTqk7fa4wmMe7iSIMDLMqP1TY4Vg",
 							"type": "string"
 						}
 					]
@@ -578,7 +579,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"url1\":\"https://firebasestorage.googleapis.com/v0/b/faceverification-8f16a.appspot.com/o/image_1.jpg?alt=media&token=ea40b220-be43-40f0-84bf-facdf9826907\",\n    \"url2\":\"https://firebasestorage.googleapis.com/v0/b/faceverification-8f16a.appspot.com/o/image_2.jpg?alt=media&token=b5ac1888-398f-4b61-bc34-26eab88538d4\"\n}",
+					"raw": "{\n    \"url1_token\":\"https://firebasestorage.googleapis.com/v0/b/faceverification-8f16a.appspot.com/o/image_2.jpg?alt=media&token=b5ac1888-398f-4b61-bc34-26eab88538d4\",\n    \"url2_token\":\"https://firebasestorage.googleapis.com/v0/b/faceverification-8f16a.appspot.com/o/image_?alt=media&token=e6a9b4c8-dce5-4d9b-ab66-0668461fcbd4\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -586,7 +587,38 @@
 					}
 				},
 				"url": {
-					"raw": "206.81.0.65:3000/api/v1/user/verifyFace",
+					"raw": "localhost:3000/api/v1/user/verifyFace",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"user",
+						"verifyFace"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Verify user with email (admin)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmNmMTViNTA0OTk5Mzc3ODVlZDI5YzYiLCJleHAiOjE2MDc1OTE4OTUsImlhdCI6MTYwNzUwNTQ5NX0.TxUNZ6w4ueJZ4_MVEPQ1X6LNCfmDLLcKl6FQuhIA6Cs",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "206.81.0.65:3000/api/v1/admin/verifyUser?email=anirban@gmail.coma",
 					"host": [
 						"206",
 						"81",
@@ -597,8 +629,14 @@
 					"path": [
 						"api",
 						"v1",
-						"user",
-						"verifyFace"
+						"admin",
+						"verifyUser"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "anirban@gmail.coma"
+						}
 					]
 				}
 			},

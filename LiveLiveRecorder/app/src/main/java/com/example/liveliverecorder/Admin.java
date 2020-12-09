@@ -1,8 +1,9 @@
 package com.example.liveliverecorder;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Admin {
+public class Admin implements Serializable {
 
 //    "_id": "5fcf15b50499937785ed29c6",
 //            "username": "new_admin",
@@ -18,6 +19,8 @@ public class Admin {
     String _id, username, channelId, channelName, token;
     ArrayList<String> userList = new ArrayList<>();
     boolean isBroadcasting;
+
+
 
     @Override
     public String toString() {
