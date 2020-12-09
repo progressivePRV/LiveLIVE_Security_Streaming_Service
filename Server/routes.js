@@ -392,6 +392,31 @@ route.post("/admin/users",[
     }
 }); 
 
+route.get('/admin/verifyUser',[
+    query('email','email needs to be specified with proper format.').notEmpty().isEmail().trim()
+],(request,response)=>{
+    const err = validationResult(request);
+    if(!err.isEmpty()){
+        closeConnection();
+        return response.status(400).json({"error":err});
+    }
+
+    var query = {"email":request.query.email};
+
+    collection.find(query).toArray((err,res)=>{
+        if(err){
+            closeConnection();
+            return response.status(400).json({"error":err,'errorCode':101});
+        }
+        if(res.length<=0 || res.length>1){
+            closeConnection();
+            return response.status(200).json({"userFound":false});
+        }
+        closeConnection();
+        return response.status(200).json({"userFound":true});
+    });
+});
+
 route.post('/admin/channels',[
     body('channelName','channel name cannot be empty').notEmpty().trim().escape(),
     body('channelId','channel id cannot be empty').notEmpty().trim().escape(),
