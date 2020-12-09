@@ -1,0 +1,97 @@
+{
+  "project_info": {
+    "project_number": "1069075814601",
+    "project_id": "faceverification-8f16a",
+    "storage_bucket": "faceverification-8f16a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1069075814601:android:2bb66d7d67412c8f29d518",
+        "android_client_info": {
+          "package_name": "com.example.livelive"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1069075814601-1flee6nhfni3h1i6dt5j7b5lta2g8evd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7B4BwimuNz0FniB6qiFUVSei1R73y4qY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1069075814601-1flee6nhfni3h1i6dt5j7b5lta2g8evd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1069075814601:android:b2e1164b8e4f0e6a29d518",
+        "android_client_info": {
+          "package_name": "com.helloworld.faceverification"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1069075814601-1flee6nhfni3h1i6dt5j7b5lta2g8evd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7B4BwimuNz0FniB6qiFUVSei1R73y4qY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1069075814601-1flee6nhfni3h1i6dt5j7b5lta2g8evd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1069075814601:android:27ef10540d6fe28c29d518",
+        "android_client_info": {
+          "package_name": "com.helloworld.usersandroidapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1069075814601-1flee6nhfni3h1i6dt5j7b5lta2g8evd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7B4BwimuNz0FniB6qiFUVSei1R73y4qY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1069075814601-1flee6nhfni3h1i6dt5j7b5lta2g8evd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -20,6 +20,7 @@ public class Helper {
     String token = "";
     LocalMedia localMedia = null;
     Context ctx =  null;
+    RemoteMedia remoteMedia;
     AecContext aecContext = null;
     RelativeLayout relativeLayout =  null;
     LayoutManager layoutManager = null;
@@ -144,7 +145,7 @@ public class Helper {
         client.join(this.channelId, this.token).then((Channel channel) -> {
 //            System.out.println("successfully joined channel");
             Log.d(TAG, "JoinChannel: successfully joined channel");
-            Log.d(TAG, "JoinChannel: remote upstream connection from channel=>"+channel.getId()+"remote upstream connections"+channel.getRemoteUpstreamConnectionInfos());
+            Log.d(TAG, "JoinChannel: remote upstream connection from channel=>"+channel.getId()+", remote upstream connections=>"+channel.getRemoteUpstreamConnectionInfos().length);
             interact.ChannelJoined();
         }).fail((Exception ex) -> {
             Log.d(TAG, "JoinChannel: failed to join channel msg=>"+ex.getMessage());
@@ -166,6 +167,13 @@ public class Helper {
         client.leave(channelId).then((Channel channel) -> {
             Log.d(TAG, "LeaveAChannel: left the channel");
 //            System.out.println("left the channel");
+            // now un register the user/device
+            try {
+                UnRegisterTheClient();
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.d(TAG, "LeaveAChannel: exception unregistering the user=>"+e.getMessage());
+            }
         }).fail((Exception ex) -> {
             Log.d(TAG, "LeaveAChannel: failed to leave the channel msg=>"+ex.getMessage());
 //            System.out.println("failed to leave the channel");
@@ -211,38 +219,26 @@ public class Helper {
         this.localMedia.stop().then((fm.liveswitch.LocalMedia lm) -> {
 //            System.out.println("media capture stopped");
             Log.d(TAG, "stopLocalMediaCapture: successful");
+            mainActivity.runOnUiThread(()->{
+                layoutManager.unsetLocalView();
+            });
+            this.localMedia.destroy();
+            this.localMedia = null;
+            // after this leave the channel
+            try {
+                LeaveAChannel();
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.d(TAG, "stopLocalMediaCapture: exception while leaving the channel e =>"+e.getMessage());
+            }
+
         }).fail((Exception ex) -> {
 //            System.out.println(ex.getMessage());
             Log.d(TAG, "stopLocalMediaCapture: failed msg=>" + ex.getMessage());
         });
-        layoutManager.unsetLocalView();
-        this.localMedia.destroy();
-        this.localMedia = null;
+
     }
 
-    void CreateBiDirectionalStreams(){
-        RemoteMedia remoteMedia = new RemoteMedia(this.ctx,false,false,this.aecContext);
-        AudioStream = new fm.liveswitch.AudioStream(localMedia, remoteMedia);
-        VideoStream = new fm.liveswitch.VideoStream(localMedia, remoteMedia);
-    }
-
-    void CreateUniDirectionalStreams_SendLocalMedia(){
-        /*
-        for recorder app
-        */
-//        RemoteMedia remoteMedia = new RemoteMedia(this.ctx,false,false,this.aecContext);
-        AudioStream = new fm.liveswitch.AudioStream(localMedia, null);
-        VideoStream = new fm.liveswitch.VideoStream(localMedia, null);
-    }
-
-    void CreateUniDirectionalStreams_ReceiveRemoteMedia(){
-        /*
-        for client app (stream receiver app)
-        */
-        RemoteMedia remoteMedia = new RemoteMedia(this.ctx,false,false,this.aecContext);
-        AudioStream = new fm.liveswitch.AudioStream(null, remoteMedia);
-        VideoStream = new fm.liveswitch.VideoStream(null, remoteMedia);
-    }
 
     void CreateSFU_UpStreamConnection(){
         Log.d(TAG, "CreateSFU_UpStreamConnection: called");
@@ -266,9 +262,10 @@ public class Helper {
         Log.d(TAG, "CreateSFU_DownStreamConnection: called, listening for remote up stream connection, i.e. waiting for another device to send the stream.");
         channel.addOnRemoteUpstreamConnectionOpen((fm.liveswitch.ConnectionInfo remoteConnectionInfo) -> {
             Log.d(TAG, "CreateSFU_DownStreamConnection: got a remote connection");
+            Log.d(TAG, "CreateSFU_DownStreamConnection: counts streams=>"+channel.getRemoteUpstreamConnectionInfos().length);
             // as layout manager is not set
             Log.d(TAG, "CreateSFU_DownStreamConnection: setting layout manager");
-            RemoteMedia remoteMedia = new RemoteMedia(this.ctx,false,false,this.aecContext);
+            remoteMedia = new RemoteMedia(this.ctx,false,false,this.aecContext);
             mainActivity.runOnUiThread(()->{
                 this.layoutManager =  new LayoutManager(this.relativeLayout);
                 layoutManager.addRemoteView(remoteMedia.getId(), remoteMedia.getView());
@@ -307,6 +304,9 @@ public class Helper {
         if (SFU_down_connection!=null){
             SFU_down_connection.close().then((Object result) -> {
                 Log.d(TAG, "CloseSFUConnections: SFU_down_connection.close() successful");
+                mainActivity.runOnUiThread(()->{
+                    layoutManager.removeRemoteViews();
+                });
 //                System.out.println("connection closed");
             }).fail((Exception ex) -> {
                 Log.d(TAG, "CloseSFUConnections: failed to close SFU_down_connection, msg=>"+ex.getMessage());
@@ -314,8 +314,15 @@ public class Helper {
             });
         }
         if (SFU_up_connection!=null) {
+            // stopping the preview
             SFU_up_connection.close().then((Object result) -> {
                 Log.d(TAG, "CloseSFUConnections: SFU_up_connection.close() successful");
+                try {
+                    stopLocalMediaCapture();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Log.d(TAG, "CloseSFUConnections: e=>"+e.getMessage());
+                }
 //                System.out.println("connection closed");
             }).fail((Exception ex) -> {
                 Log.d(TAG, "CloseSFUConnections: failed to close SFU_up_connection, msg=>"+ex.getMessage());
@@ -331,6 +338,5 @@ public class Helper {
         void StartedLocalMediaCapture();
         void CreatedSFU_UpStreamConnection();
         void CreatedSFU_DownStreamConnection();
-
     }
 }
