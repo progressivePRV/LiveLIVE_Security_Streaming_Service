@@ -223,6 +223,13 @@ public class CreateNewChannelActivity extends AppCompatActivity implements UserL
                         }else{
                             //we should finish this activity and call the channel indfoactivity.
                             Intent intent = new Intent(CreateNewChannelActivity.this, ChannelInfo.class);
+                            admin =  new Admin();
+                            Log.d(TAG, "onPostExecute: preferences.getString(\"ID\",null);=>"+preferences.getString("ID",null));
+                            admin.channelId = preferences.getString("ID",null);
+                            admin.channelName = editTextStreamName.getText().toString();
+                            admin.isBroadcasting = false;
+                            admin.users = userArrayList;
+                            Log.d(TAG, "onPostExecute: admin=>"+admin.toString());
                             intent.putExtra("Admin_Obj",admin);
                             startActivity(intent);
                             finish();

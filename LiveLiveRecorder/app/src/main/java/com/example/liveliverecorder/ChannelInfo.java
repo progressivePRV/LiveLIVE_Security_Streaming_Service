@@ -120,12 +120,12 @@ public class ChannelInfo extends AppCompatActivity implements UserListAdapter.In
         String result1 = "";
         @Override
         protected Void doInBackground(Void... voids) {
-            String token = getApplicationContext().getSharedPreferences("AdminTokenKey",0).getString("ID",null);
+            String token = getApplicationContext().getSharedPreferences("AdminTokenKey",0).getString("TOKEN_KEY",null);
             // if needed check for token null
             final OkHttpClient client = new OkHttpClient();
             Request request = new Request.Builder()
                     .url(getResources().getString(R.string.endPointUrl)+"api/v1/admin/channels")//206.81.0.65:3000/api/v1/admin/channels
-                    .header("Authorization", "Basic " + token)
+                    .header("Authorization", "Bearer " + token)
                     .delete()
                     .build();
             try (Response response = client.newCall(request).execute()) {
