@@ -36,12 +36,14 @@ public class MainActivity extends AppCompatActivity implements Helper.InteractWi
 
 
 
-//        findViewById(R.id.btn_up_stream).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
+        findViewById(R.id.stop_broadcast_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 //                startSFUUpstream();
-//            }
-//        });
+//                onDestroy();
+                finish();
+            }
+        });
     }
 
     void startSFUUpstream()  {
@@ -106,6 +108,7 @@ public class MainActivity extends AppCompatActivity implements Helper.InteractWi
 
     @Override
     protected void onDestroy() {
+        Log.d(TAG, "onDestroy: called");
         super.onDestroy();
         if (helper==null){
             return;

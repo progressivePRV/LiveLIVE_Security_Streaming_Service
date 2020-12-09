@@ -36,6 +36,9 @@ import okhttp3.Response;
 
 public class CreateNewChannelActivity extends AppCompatActivity implements UserListAdapter.InteractWithRecyclerView {
 
+    private static final String TAG = "okay_CreateNewChannel";
+    private static final String EDIT_STREAM = "EDITSTREAM";
+    private static final String  CREATE_STREAM = "CREATESTREAM";
     private EditText editTextUserName;
     private RecyclerView recyclerView;
     private ProgressDialog progressDialog;
@@ -115,7 +118,13 @@ public class CreateNewChannelActivity extends AppCompatActivity implements UserL
                     editTextStreamName.setError("cannot be empty");
                 }else{
                     //have to hit the channel creating endpoint
-                    new createChannel(channelName,gson.toJson(userArrayList)).execute();
+                    Channel channel =  new Channel();
+                    channel.channelId = preferences.getString("ID", null);
+                    channel.channelName = channelName;
+                    channel.users = userArrayList;
+                    Log.d(TAG, "onClick:while creating new channel, sending channel=>"+channel);
+                    new createChannel(channelName,userArrayList.toString()).execute(CREATE_STREAM,gson.toJson(channel));
+//                    new createChannel(channelName,gson.toJson(userArrayList)).execute();
                 }
             }
         });
@@ -131,7 +140,15 @@ public class CreateNewChannelActivity extends AppCompatActivity implements UserL
                     editTextStreamName.setError("cannot be empty");
                 }else{
                     //have to hit the channel creating endpoint
-                    new createChannel(channelName,gson.toJson(userArrayList)).execute();
+                    Log.d(TAG, "onClick: before creating new channel or editing new channel ");
+                    Log.d(TAG, "onClick: userArrayList=>"+userArrayList);
+                    Log.d(TAG, "onClick: userArrayList.toString=>"+userArrayList.toString());
+                    Channel channel =  new Channel();
+                    channel.channelId = preferences.getString("ID", null);
+                    channel.channelName = channelName;
+                    channel.users = userArrayList;
+                    Log.d(TAG, "onClick:while creating new channel, sending channel=>"+channel);
+                    new createChannel(channelName,userArrayList.toString()).execute(EDIT_STREAM,gson.toJson(channel));
                 }
             }
         });
@@ -162,11 +179,16 @@ public class CreateNewChannelActivity extends AppCompatActivity implements UserL
                     .add("channelId",preferences.getString("ID", null))
                     .add("users",userList)
                     .build();
-            Request request = new Request.Builder()
+            Request.Builder builder = new Request.Builder()
                     .url(getResources().getString(R.string.endPointUrl)+"api/v1/admin/channels")
-                    .header("Authorization", "Bearer "+ preferences.getString("TOKEN_KEY", null))
-                    .post(formBody)
-                    .build();
+                    .header("Authorization", "Bearer "+ preferences.getString("TOKEN_KEY", null));
+            if (strings[0].equals(CREATE_STREAM)){
+                builder.post(RequestBody.create(strings[1],MEDIA_TYPE_JSON));
+            }
+            if (strings[0].equals(EDIT_STREAM)){
+                builder.put(RequestBody.create(strings[1],MEDIA_TYPE_JSON));
+            }
+            Request request = builder.build();
             String responseValue = null;
             try (Response response = client.newCall(request).execute()) {
                 if(response.isSuccessful()){
@@ -186,12 +208,17 @@ public class CreateNewChannelActivity extends AppCompatActivity implements UserL
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            Log.d(TAG, "onPostExecute: createChannel result=>"+s);
             if(s!=null){
                 JSONObject root = null;
                 try {
                     root = new JSONObject(s);
                     if(isStatus){
                         Toast.makeText(CreateNewChannelActivity.this, root.getString("result"), Toast.LENGTH_SHORT).show();
+                        Intent i = new Intent();
+                        i.putExtra("admin",admin);
+                        setResult(RESULT_OK,i);
+                        finish();
                     }else{
                         Toast.makeText(CreateNewChannelActivity.this, root.getString("error"), Toast.LENGTH_SHORT).show();
                     }

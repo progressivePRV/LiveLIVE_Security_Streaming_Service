@@ -17,4 +17,5 @@
     <string name="Female">Female</string>
     <string name="Age">Age</string>
     <string name="edit_stream">Edit Stream</string>
+    <string name="stop_broadcast">Stop Broadcast</string>
 </resources>
