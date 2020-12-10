@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity implements Helper.InteractWi
         Intent i = getIntent();
         if (i.hasExtra("Admin_Obj")){
             admin = (Admin) i.getSerializableExtra("Admin_Obj");
-            Log.d(TAG, "onCreate: got the data from Intent");
+            Log.d(TAG, "onCreate: got the data from Intent : "+admin.toString());
         }else{
             Log.d(TAG, "onCreate: didn't got any intent data");
         }

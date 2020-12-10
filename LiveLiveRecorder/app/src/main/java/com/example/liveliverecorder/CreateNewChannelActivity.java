@@ -225,6 +225,7 @@ public class CreateNewChannelActivity extends AppCompatActivity implements UserL
                             Intent intent = new Intent(CreateNewChannelActivity.this, ChannelInfo.class);
                             admin =  new Admin();
                             Log.d(TAG, "onPostExecute: preferences.getString(\"ID\",null);=>"+preferences.getString("ID",null));
+                            admin._id = preferences.getString("ID",null);
                             admin.channelId = preferences.getString("ID",null);
                             admin.channelName = editTextStreamName.getText().toString();
                             admin.isBroadcasting = false;
