@@ -9,6 +9,7 @@ import fm.liveswitch.AudioStream;
 import fm.liveswitch.Channel;
 import fm.liveswitch.ChannelClaim;
 import fm.liveswitch.VideoStream;
+import fm.liveswitch.android.Camera2Source;
 import fm.liveswitch.android.LayoutManager;
 
 public class Helper {
@@ -27,8 +28,9 @@ public class Helper {
     LayoutManager layoutManager = null;
     InteractWithActivity interact;
     Activity mainActivity;
-    private fm.liveswitch.AudioStream AudioStream;
-    private fm.liveswitch.VideoStream VideoStream;
+    boolean isCameraFrontInUse = true;
+//    private fm.liveswitch.AudioStream AudioStream;
+//    private fm.liveswitch.VideoStream VideoStream;
     Channel channel;
 
     fm.liveswitch.SfuDownstreamConnection SFU_down_connection;
@@ -329,6 +331,17 @@ public class Helper {
                 Log.d(TAG, "CloseSFUConnections: failed to close SFU_up_connection, msg=>"+ex.getMessage());
 //                System.out.println("an error occurred");
             });
+        }
+    }
+
+    void FlipTheCamera(){
+        if (localMedia != null && localMedia.getVideoSource() != null)
+        {
+            localMedia.changeVideoSourceInput(isCameraFrontInUse ?
+                    ((Camera2Source) localMedia.getVideoSource()).getBackInput() :
+                    ((Camera2Source) localMedia.getVideoSource()).getFrontInput());
+
+            isCameraFrontInUse = !isCameraFrontInUse;
         }
     }
 

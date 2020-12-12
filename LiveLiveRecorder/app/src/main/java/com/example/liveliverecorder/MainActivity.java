@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import fm.liveswitch.android.Camera2Source;
+
 public class MainActivity extends AppCompatActivity implements Helper.InteractWithActivity {
 
     private static final String TAG = "okay_MainActivity";
@@ -34,7 +36,12 @@ public class MainActivity extends AppCompatActivity implements Helper.InteractWi
         Log.d(TAG, "onCreate: calling start SFU Up Stream");
         startSFUUpstream();
 
-
+        findViewById(R.id.Flip_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                helper.FlipTheCamera();
+            }
+        });
 
         findViewById(R.id.stop_broadcast_btn).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,6 +56,8 @@ public class MainActivity extends AppCompatActivity implements Helper.InteractWi
     void startSFUUpstream()  {
         showProgressBarDialog();
         helper = new Helper(this,this,findViewById(R.id.preview_container));
+//        helper.SetChannelId("test001");
+//        helper.SetUserId("user_test");
         helper.SetChannelId(admin.channelId);
         helper.SetUserId(admin._id);
         helper.GetClientToken();
