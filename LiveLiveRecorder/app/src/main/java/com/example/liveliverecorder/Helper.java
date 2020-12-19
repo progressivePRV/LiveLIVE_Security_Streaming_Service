@@ -8,6 +8,8 @@ import android.widget.RelativeLayout;
 import fm.liveswitch.AudioStream;
 import fm.liveswitch.Channel;
 import fm.liveswitch.ChannelClaim;
+import fm.liveswitch.LayoutAlignment;
+import fm.liveswitch.LayoutMode;
 import fm.liveswitch.VideoStream;
 import fm.liveswitch.android.Camera2Source;
 import fm.liveswitch.android.LayoutManager;
@@ -210,6 +212,12 @@ public class Helper {
         mainActivity.runOnUiThread(()->{
             this.layoutManager =  new LayoutManager(this.relativeLayout);
             layoutManager.setLocalView(localMedia.getView());
+            int height = relativeLayout.getHeight();
+            layoutManager.setBlockHeight(height);
+            int width = relativeLayout.getWidth();
+            layoutManager.setBlockWidth(width);
+//            layoutManager.setAlignment(LayoutAlignment.Center);
+//            layoutManager.setMode(LayoutMode.Block);
 //            layoutManager.layout();
         });
     }

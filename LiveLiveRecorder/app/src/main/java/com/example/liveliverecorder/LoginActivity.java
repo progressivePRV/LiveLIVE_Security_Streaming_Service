@@ -1,15 +1,23 @@
 package com.example.liveliverecorder;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.app.ActivityOptions;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.transition.Explode;
+import android.transition.Fade;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -29,16 +37,33 @@ import okhttp3.Response;
 public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "demo_LoginActivity";
+    private static final int REQUEST_CODE_PERMISSIONS = 1111;
     Gson gson =  new Gson();
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
     private ProgressDialog progressDialog;
     TextInputLayout email_TIL,password_TIL;
     TextInputEditText email_TIET,password_TIET;
+    private final String[] REQUIRED_PERMISSIONS = new String[]
+            {
+                    "android.permission.CAMERA",
+                    "android.permission.RECORD_AUDIO",
+                    "android.permission.MODIFY_AUDIO_SETTINGS",
+                    "android.permission.BLUETOOTH",
+                    "android.permission.INTERNET",
+            };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ///////// setting up the animation
+        getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
+        getWindow().setEnterTransition(new Explode());
+        getWindow().setExitTransition(new Explode());
+//        getWindow().setSharedElementEnterTransition();
+//        getWindow().setSharedElementExitTransition();
+        /////////
+
         setContentView(R.layout.activity_login);
 
         email_TIET = findViewById(R.id.email_TIET);
@@ -59,6 +84,44 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+
+        CheckForALLPermissions();
+
+    }
+
+    private void CheckForALLPermissions() {
+        boolean allGranted = true;
+        for (String permission : REQUIRED_PERMISSIONS){
+            Log.d(TAG, "CheckForALLPermissions: checking permission for=>"+permission);
+            if(ContextCompat.checkSelfPermission(this,permission)
+                    != PackageManager.PERMISSION_GRANTED){
+                allGranted = false;
+                break;
+            }
+        }
+        if (!allGranted)
+            ActivityCompat.requestPermissions(this,REQUIRED_PERMISSIONS,REQUEST_CODE_PERMISSIONS);
+        else
+            Log.d(TAG, "CheckForALLPermissions: all permission granted");
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if(requestCode == REQUEST_CODE_PERMISSIONS){
+
+            for (int i : grantResults){
+                Log.d(TAG, "onRequestPermissionsResult: grantResult "+i);
+                if(i != 0){
+                    Log.d(TAG, "onRequestPermissionsResult: permission not granted");
+                    Toast.makeText(this, "without Permissions App will not work Properly", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+            }
+            Log.d(TAG, "onRequestPermissionsResult: permission granted");
+            //use camera
+//            StartCamera();
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     private boolean CheckIfEmailAndPasswordAreEmpty() {
@@ -144,11 +207,15 @@ public class LoginActivity extends AppCompatActivity {
                     hideProgressBarDialog();
                     if(admin.channelId == null){
                         Intent intent = new Intent(LoginActivity.this, CreateNewChannelActivity.class);
-                        startActivity(intent);
+                        ActivityOptions activityOptions =  ActivityOptions.makeSceneTransitionAnimation(LoginActivity.this,findViewById(R.id.app_icon_iv),"icon");
+                        startActivity(intent, activityOptions.toBundle());
+//                        startActivity(intent);
                     }else{
                         Intent i = new Intent(LoginActivity.this,ChannelInfo.class);
                         i.putExtra("Admin_Obj",admin);
-                        startActivity(i);
+                        ActivityOptions activityOptions =  ActivityOptions.makeSceneTransitionAnimation(LoginActivity.this,findViewById(R.id.app_icon_iv),"icon");
+                        startActivity(i, activityOptions.toBundle());
+//                        startActivity(i);
                         Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
                         finish();
                     }

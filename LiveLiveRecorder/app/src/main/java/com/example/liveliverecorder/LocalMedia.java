@@ -35,6 +35,10 @@ public class LocalMedia extends fm.liveswitch.RtcLocalMedia<View>{
         this.context = context;
 //        this.cameraPreview = previewView;
         this.cameraPreview = new CameraPreview(context, LayoutScale.Contain);
+//        cameraPreview.setViewScale(LayoutScale.Contain);
+//        cameraPreview.setViewScale(LayoutScale.Cover);
+        cameraPreview.setViewScale(LayoutScale.Stretch);
+//        cameraPreview.getView().
         super.initialize();
     }
 
