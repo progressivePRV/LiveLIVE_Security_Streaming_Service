@@ -147,7 +147,7 @@
 				"header": [
 					{
 						"key": "apiKey",
-						"value": "40-af-57-0d-2d-f2-ca-fc-0b-af-0f-f7-3f-73-97-0d",
+						"value": "83-42-34-66-19-9c-d9-e7-5c-d1-a2-88-8c-25-eb-6b",
 						"type": "text"
 					}
 				],
@@ -412,13 +412,13 @@
 					"type": "basic",
 					"basic": [
 						{
-							"key": "username",
-							"value": "new_admin",
+							"key": "password",
+							"value": "admin123",
 							"type": "string"
 						},
 						{
-							"key": "password",
-							"value": "admin123",
+							"key": "username",
+							"value": "admin1",
 							"type": "string"
 						}
 					]
@@ -527,7 +527,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmNkY2FkNjNhNWExNTYxOGRjZGM0ZTIiLCJleHAiOjE2MDc0OTIxMzYsImlhdCI6MTYwNzQwNTczNn0.bz6rsZ2QoypIqWFrGR1RuQAvDB-2GoQsu4rn6R8R1g8",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmRkNDY4YzQyMzMzNDFmZjgxMjkwOWUiLCJleHAiOjE2MDg1MDIwMjEsImlhdCI6MTYwODQxNTYyMX0.YCCwsfUigueEKGUB9_TVh-_3zvM3g47PXgLWTdJa2aM",
 							"type": "string"
 						}
 					]
@@ -536,7 +536,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"url\":\"https://firebasestorage.googleapis.com/v0/b/faceverification-8f16a.appspot.com/o/image_1.jpg?alt=media&token=ea40b220-be43-40f0-84bf-facdf9826907\"\n}",
+					"raw": "{\n    \"url\":\"https://firebasestorage.googleapis.com/v0/b/faceverification-8f16a.appspot.com/o/image_5fd14e5f046b230e13770311_original.jpg?alt=media&token=77c1ddf1-136c-40d9-9ce1-9bd1410d1bf7\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -636,6 +636,46 @@
 						{
 							"key": "email",
 							"value": "anirban@gmail.coma"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Users for Autocomplete",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmRkNDY4YzQyMzMzNDFmZjgxMjkwOWUiLCJleHAiOjE2MDg1MDIwMjEsImlhdCI6MTYwODQxNTYyMX0.YCCwsfUigueEKGUB9_TVh-_3zvM3g47PXgLWTdJa2aM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "206.81.0.65:3000/api/v1/admin/users?email=est",
+					"host": [
+						"206",
+						"81",
+						"0",
+						"65"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"admin",
+						"users"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "est"
 						}
 					]
 				}
