@@ -779,14 +779,14 @@ route.get('/user/verifyFace',async(request,response)=>{
             return response.status(400).json({"error":'images could not be processed. Please try again','errorCode':123});
         }
 
-        const verifyRes = await axios.post('https://westcentralus.api.cognitive.microsoft.com/face/v1.0/verify',
+        const verifyRes = await axios.post('https://face-api-for-amad.cognitiveservices.azure.com/face/v1.0/verify',
         {
             "faceId1":res1.data[0].faceId,
             "faceId2":res2.data[0].faceId
         },
         {
             headers:{
-                'Ocp-Apim-Subscription-Key':'c173784504ce4312b8502df2c6b1cd25',
+                'Ocp-Apim-Subscription-Key':'664b6cf717ef4c868dfb7970180f516c',
                 'Content-Type':'application/json'
             }
         });
