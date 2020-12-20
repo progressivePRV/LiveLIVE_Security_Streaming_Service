@@ -417,6 +417,29 @@ route.get('/admin/verifyUser',[
     });
 });
 
+route.get('/admin/users',(request,response)=>{
+
+    var query={};
+
+    if(request.query.email){
+        var query = {"email":{"$regex": ".*"+request.query.email+".*", "$options": "i"}};
+    }
+    
+
+    collection.find(query).project({password:0}).limit(5).toArray((err,res)=>{
+        if(err){
+            closeConnection();
+            return response.status(400).json({"error":err,'errorCode':101});
+        }
+        if(res.length<=0){
+            closeConnection();
+            return response.status(400).json({"error":"no users found"});
+        }
+        closeConnection();
+        return response.status(200).json(res);
+    });
+});
+
 route.post('/admin/channels',[
     body('channelName','channel name cannot be empty').notEmpty().trim().escape(),
     body('channelId','channel id cannot be empty').notEmpty().trim().escape(),
@@ -593,11 +616,11 @@ route.get('/appConfig',[
         closeConnection();
         return response.status(400).json({"error":err});
     }
-
+    //console.log(request.header);
     try{
         const res = await axios.get('https://api.liveswitch.io/ApplicationConfigs',{
             headers:{
-                'X-API-Key':'40-af-57-0d-2d-f2-ca-fc-0b-af-0f-f7-3f-73-97-0d'
+                'X-API-Key':request.header('apiKey')
             }
         });
 
@@ -608,7 +631,7 @@ route.get('/appConfig',[
         closeConnection();
         var data = res.data;
         //data.channelID = Date.now() + Math.random()
-        data.channelID = new Date().valueOf();
+        //data.channelID = new Date().valueOf();
         return response.status(200).json(data);
         
     }
@@ -673,13 +696,13 @@ route.post('/admin/verifyFace',[
     }
 
     try{
-        const res1 = await axios.post('https://westcentralus.api.cognitive.microsoft.com/face/v1.0/detect',
+        const res1 = await axios.post('https://face-api-for-amad.cognitiveservices.azure.com/face/v1.0/detect',
         {
             'url':request.body.url
         },
         {
             headers:{
-                'Ocp-Apim-Subscription-Key':'c173784504ce4312b8502df2c6b1cd25',
+                'Ocp-Apim-Subscription-Key':'664b6cf717ef4c868dfb7970180f516c',
                 'Content-Type':'application/json'
             }
         });
@@ -703,7 +726,7 @@ route.post('/admin/verifyFace',[
     }
     catch(e){
         closeConnection();
-        //console.log(e);
+        console.log(e);
         return response.status(400).json({"error":e.toString(),'errorCode':124});
     }
 })
@@ -717,26 +740,26 @@ route.get('/user/verifyFace',async(request,response)=>{
     var url2 = "https://firebasestorage.googleapis.com/v0/b/faceverification-8f16a.appspot.com/o/image_"+loggedInUser._id+"_copy.jpg?alt=media";
 
     try{
-        const res1 = await axios.post('https://westcentralus.api.cognitive.microsoft.com/face/v1.0/detect',
+        const res1 = await axios.post('https://face-api-for-amad.cognitiveservices.azure.com/face/v1.0/detect',
         {
             //'url':request.body.url1
             'url':url1
         },
         {
             headers:{
-                'Ocp-Apim-Subscription-Key':'c173784504ce4312b8502df2c6b1cd25',
+                'Ocp-Apim-Subscription-Key':'664b6cf717ef4c868dfb7970180f516c',
                 'Content-Type':'application/json'
             }
         });
 
-        const res2 = await axios.post('https://westcentralus.api.cognitive.microsoft.com/face/v1.0/detect',
+        const res2 = await axios.post('https://face-api-for-amad.cognitiveservices.azure.com/face/v1.0/detect',
         {
             //'url':request.body.url2
             'url':url2
         },
         {
             headers:{
-                'Ocp-Apim-Subscription-Key':'c173784504ce4312b8502df2c6b1cd25',
+                'Ocp-Apim-Subscription-Key':'664b6cf717ef4c868dfb7970180f516c',
                 'Content-Type':'application/json'
             }
         });
