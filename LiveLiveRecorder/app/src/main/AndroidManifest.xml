@@ -18,8 +18,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LiveLiveRecorder"
         android:usesCleartextTraffic="true">
-        <activity android:name=".CreateNewUser"></activity>
-        <activity android:name=".CreateNewChannelActivity" />
+        <activity android:name=".CreateNewUser"
+            android:windowSoftInputMode="adjustNothing"/>
+        <activity android:name=".CreateNewChannelActivity"
+            android:windowSoftInputMode="adjustNothing"/>
         <activity android:name=".ChannelInfo"></activity>
         <activity android:name=".LoginActivity">
             <intent-filter>

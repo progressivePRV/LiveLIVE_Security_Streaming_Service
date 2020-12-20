@@ -7,6 +7,20 @@
     android:padding="30dp"
     tools:context=".CreateNewChannelActivity">
 
+    <ImageView
+        android:id="@+id/app_icon"
+        android:layout_width="500dp"
+        android:layout_height="500dp"
+        android:alpha="@dimen/icon_fade_value"
+        android:contentDescription="@string/app_icon_desc"
+        android:transitionName="icon"
+        android:translationX="150dp"
+        android:translationY="100dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/cam_img" />
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/firstName_TIL"
         style="@style/textInputStyle"
@@ -16,7 +30,7 @@
         app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageButtonUser">
+        app:layout_constraintTop_toBottomOf="@id/imageButtonUserContainer">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/firstName_TIET"
@@ -89,14 +103,29 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password_TIL" />
 
-    <ImageButton
-        android:id="@+id/imageButtonUser"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/imageButtonUserContainer"
         android:layout_width="100dp"
         android:layout_height="100dp"
+        app:cardCornerRadius="100dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/imageButtonUser"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:scaleType="fitStart"
+            android:src="@drawable/hint_profile_photo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.cardview.widget.CardView>
+
+
 
     <Button
         android:id="@+id/buttonCancel"

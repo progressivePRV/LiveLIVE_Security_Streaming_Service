@@ -8,25 +8,31 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Base64;
+import android.transition.Explode;
+import android.transition.Fade;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
+import kotlin.jvm.internal.Lambda;
 import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -44,15 +50,26 @@ public class CreateNewChannelActivity extends AppCompatActivity implements UserL
     private ProgressDialog progressDialog;
     private RecyclerView.Adapter mAdapter;
     SharedPreferences preferences;
+    ChipGroup chipGroup;
     Gson gson = new Gson();
     private RecyclerView.LayoutManager layoutManager;
     private Button buttonEditStream, buttonCreateStream;
-    private EditText editTextStreamName;
+//    private EditText editTextStreamName;
+    TextInputEditText TIETStreamName;
     ArrayList<String> userArrayList = new ArrayList<>();
     Admin admin;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        ///////// setting up the animation
+        getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
+        getWindow().setEnterTransition(new Fade());
+        getWindow().setExitTransition(new Fade());
+//        getWindow().setSharedElementEnterTransition();
+//        getWindow().setSharedElementExitTransition();
+        /////////
+
         setContentView(R.layout.activity_create_new_channel);
 
         if(getIntent().hasExtra("admin")){
@@ -60,17 +77,21 @@ public class CreateNewChannelActivity extends AppCompatActivity implements UserL
         }
 
         editTextUserName = findViewById(R.id.editTextUserName);
-        editTextStreamName = findViewById(R.id.editTextStreamName);
+        TIETStreamName = findViewById(R.id.TIETStreamName);
         buttonEditStream = findViewById(R.id.buttonEditStream);
         buttonCreateStream = findViewById(R.id.buttonCreateStream);
+        chipGroup = findViewById(R.id.chip_group_in_createChannel);
 
         if(admin != null){
             userArrayList = admin.users;
-            editTextStreamName.setText(admin.channelName);
+            TIETStreamName.setText(admin.channelName);
             buttonCreateStream.setVisibility(Button.INVISIBLE);
             buttonEditStream.setVisibility(Button.VISIBLE);
+            //////////// adding user chips
+            UpdateChips();
+            ///////////
         }else{
-            editTextStreamName.setText("");
+            TIETStreamName.setText("");
             buttonCreateStream.setVisibility(Button.VISIBLE);
             buttonEditStream.setVisibility(Button.INVISIBLE);
         }
@@ -112,10 +133,10 @@ public class CreateNewChannelActivity extends AppCompatActivity implements UserL
         buttonCreateStream.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String channelName = editTextStreamName.getText().toString();
+                String channelName = TIETStreamName.getText().toString();
                 if(channelName.equals("")){
                     Toast.makeText(CreateNewChannelActivity.this, "Channel name cannot be empty", Toast.LENGTH_SHORT).show();
-                    editTextStreamName.setError("cannot be empty");
+                    TIETStreamName.setError("cannot be empty");
                 }else{
                     //have to hit the channel creating endpoint
                     Channel channel =  new Channel();
@@ -132,12 +153,12 @@ public class CreateNewChannelActivity extends AppCompatActivity implements UserL
         buttonEditStream.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String channelName = editTextStreamName.getText().toString();
+                String channelName = TIETStreamName.getText().toString();
                 admin.channelName = channelName;
                 admin.users = userArrayList;
                 if(channelName.equals("")){
                     Toast.makeText(CreateNewChannelActivity.this, "Channel name cannot be empty", Toast.LENGTH_SHORT).show();
-                    editTextStreamName.setError("cannot be empty");
+                    TIETStreamName.setError("cannot be empty");
                 }else{
                     //have to hit the channel creating endpoint
                     Log.d(TAG, "onClick: before creating new channel or editing new channel ");
@@ -152,6 +173,32 @@ public class CreateNewChannelActivity extends AppCompatActivity implements UserL
                 }
             }
         });
+
+
+
+    }
+
+    private void UpdateChips() {
+        View.OnClickListener onChipClick =  new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "onClick: "+((Chip)view).getText()+" chip");
+                int index = (int) view.getTag();
+                userArrayList.remove(index);
+                chipGroup.removeViewAt(index);
+            }
+        };
+        for(int i=0;i<userArrayList.size();i++){
+            Chip c1 =  new Chip(this);
+            c1.setText(userArrayList.get(i));
+//            c1.setBackgroundColor();
+            c1.setChipBackgroundColorResource(R.color.colorAccent);
+//            c1.setChipBackgroundColor(ColorStateList.valueOf(R.color.colorAccent));
+            c1.setTag(i);
+            c1.setCloseIconVisible(true);
+            c1.setOnCloseIconClickListener(onChipClick);
+            chipGroup.addView(c1,i);
+        }
     }
 
     public class createChannel extends AsyncTask<String, Void, String> {
@@ -227,7 +274,7 @@ public class CreateNewChannelActivity extends AppCompatActivity implements UserL
                             Log.d(TAG, "onPostExecute: preferences.getString(\"ID\",null);=>"+preferences.getString("ID",null));
                             admin._id = preferences.getString("ID",null);
                             admin.channelId = preferences.getString("ID",null);
-                            admin.channelName = editTextStreamName.getText().toString();
+                            admin.channelName = TIETStreamName.getText().toString();
                             admin.isBroadcasting = false;
                             admin.users = userArrayList;
                             Log.d(TAG, "onPostExecute: admin=>"+admin.toString());
@@ -252,6 +299,9 @@ public class CreateNewChannelActivity extends AppCompatActivity implements UserL
             //yay finally user is created.
             Log.d("demo", "The new user email is : "+data.getExtras().getString("user_email"));
             userArrayList.add(data.getExtras().getString("user_email"));
+            //////////// adding user chips
+            UpdateChips();
+            ///////////
             mAdapter.notifyDataSetChanged();
         }
     }

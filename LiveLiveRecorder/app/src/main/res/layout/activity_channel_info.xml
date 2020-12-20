@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="25dp"
+    android:clickable="false"
+    android:longClickable="false"
     tools:context=".ChannelInfo">
 
     <ImageView
@@ -40,7 +41,11 @@
         android:id="@+id/channel_name_inChannelInfo"
         android:layout_width="match_parent"
         android:layout_height="45dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:background="@color/material_on_primary_emphasis_medium"
+        android:backgroundTint="@color/material_on_primary_emphasis_medium"
         android:text="Channel name"
         android:textAlignment="center"
         android:textSize="24sp"
@@ -52,8 +57,33 @@
         android:id="@+id/listview_inChannelInfo"
         android:layout_width="0dp"
         android:layout_height="300dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/channel_name_inChannelInfo" />
+
+    <ImageView
+        android:id="@+id/app_icon"
+        android:layout_width="500dp"
+        android:layout_height="500dp"
+        android:alpha="@dimen/icon_fade_value"
+        android:transitionName="icon"
+        android:translationX="150dp"
+        android:translationY="100dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/cam_img" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chip_group_in_channelInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/channel_name_inChannelInfo">
+
+    </com.google.android.material.chip.ChipGroup>
 </androidx.constraintlayout.widget.ConstraintLayout>
