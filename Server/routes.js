@@ -524,6 +524,11 @@ route.put('/admin/channels',[
         return response.status(400).json({"error":'admin has no channel to update','errorCode':121});
     }
 
+    if(channel.isBroadcasting){
+        closeConnection();
+        return response.status(400).json({"error":'admin is broadcasting. cannot edit channel','errorCode':125});
+    }
+
     var query = {"email":{
         $in:request.body.users?request.body.users:[]
     }};
@@ -576,6 +581,11 @@ route.delete('/admin/channels',(request,response)=>{
     if(!channel.channelId){
         closeConnection();
         return response.status(400).json({"error":'admin has no channel to delete','errorCode':121});
+    }
+
+    if(channel.isBroadcasting){
+        closeConnection();
+        return response.status(400).json({"error":'admin is broadcasting. cannot delete channel','errorCode':125});
     }
 
         var updatedData={
