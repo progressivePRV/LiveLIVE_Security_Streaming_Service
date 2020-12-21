@@ -1,5 +1,6 @@
 package com.example.liveliverecorder;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,6 +14,8 @@ import android.os.Bundle;
 import android.transition.Explode;
 import android.transition.Fade;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.BaseAdapter;
@@ -24,14 +27,17 @@ import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
+import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class ChannelInfo extends AppCompatActivity implements UserListAdapter.InteractWithRecyclerView {
@@ -43,8 +49,34 @@ public class ChannelInfo extends AppCompatActivity implements UserListAdapter.In
     ListView listView;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
+    private ProgressDialog progressDialog;
+    SharedPreferences preferences;
+    SharedPreferences.Editor editor;
     private RecyclerView.LayoutManager layoutManager;
     Admin admin;
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.live_recorder_menu,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.logout:
+                preferences = getApplicationContext().getSharedPreferences("AdminTokenKey",0);
+                editor = preferences.edit();
+                editor.clear();
+                editor.commit();
+                Intent intent = new Intent(ChannelInfo.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +92,8 @@ public class ChannelInfo extends AppCompatActivity implements UserListAdapter.In
 
         setContentView(R.layout.activity_channel_info);
         Log.d(TAG, "onCreate: called");
+        preferences = getApplicationContext().getSharedPreferences("AdminTokenKey",0);
+
 
         ///////////////// get ui components
         channelName =  findViewById(R.id.channel_name_inChannelInfo);
@@ -86,9 +120,14 @@ public class ChannelInfo extends AppCompatActivity implements UserListAdapter.In
         findViewById(R.id.btn_start_stream_inChannelInfo).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(ChannelInfo.this,MainActivity.class);
-                i.putExtra("Admin_Obj",admin);
-                startActivity(i);
+                //setting the broadcasting status to true here
+                if(admin.isBroadcasting == false){
+                    showProgressBarDialog();
+                    new setBroadcastingStatus().execute();
+                }
+                else{
+                    Toast.makeText(ChannelInfo.this, "You are authorized to broadcast in only one device. Please stop the broadcasting in that device and try again.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -214,5 +253,77 @@ public class ChannelInfo extends AppCompatActivity implements UserListAdapter.In
     @Override
     public void deleteItem(int position) {
 
+    }
+
+    public class setBroadcastingStatus extends AsyncTask<String, Void, String> {
+        boolean isStatus = true;
+
+        @Override
+        protected String doInBackground(String... strings) {
+            final OkHttpClient client = new OkHttpClient();
+
+            RequestBody formBody = new FormBody.Builder()
+                    .add("isBroadcasting","true")
+                    .build();
+
+            Request request = new Request.Builder()
+                    .url(getResources().getString(R.string.endPointUrl)+"api/v1/admin/broadcasting")
+                    .header("Authorization", "Bearer "+ preferences.getString("TOKEN_KEY", null))
+                    .put(formBody)
+                    .build();
+
+            String responseValue = null;
+            try (Response response = client.newCall(request).execute()) {
+                if(response.isSuccessful()){
+                    isStatus = true;
+                }else{
+                    isStatus = false;
+                }
+                Log.d("demo"," "+response.isSuccessful());
+                responseValue = response.body().string();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return responseValue;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            Log.d("streaming broadcasting : ", s);
+            if(s!=null){
+                JSONObject root = null;
+                try {
+                    root = new JSONObject(s);
+                    hideProgressBarDialog();
+                    if(isStatus){
+                        if(root.getString("result").equals("broadcasting updated")){
+                            //It means broadcasting status has been updated. So the user can actually go and broadcast the stream
+                            Intent i = new Intent(ChannelInfo.this,MainActivity.class);
+                            i.putExtra("Admin_Obj",admin);
+                            startActivity(i);
+                        }
+                    }else{
+                        Toast.makeText(ChannelInfo.this, "Error occurred in starting the live stream. Please click on the start stream again.", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public void showProgressBarDialog()
+    {
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Loading");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+    }
+
+    public void hideProgressBarDialog()
+    {
+        progressDialog.dismiss();
     }
 }

@@ -3,10 +3,13 @@ package com.example.livelive;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -44,6 +47,7 @@ import okhttp3.Response;
 public class LoginActivity extends AppCompatActivity {
 
     private static final int REQUEST_IMAGE_CAPTURE = 1;
+    private static final int REQUEST_CODE_PERMISSIONS = 1111;
     TextInputLayout email_TIL,password_TIL;
     TextInputEditText email_TIET,password_TIET;
     private ProgressDialog progressDialog;
@@ -55,6 +59,13 @@ public class LoginActivity extends AppCompatActivity {
     Gson gson =  new Gson();
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
+
+    private final String[] REQUIRED_PERMISSIONS = new String[]
+            {
+                    "android.permission.CAMERA",
+                    "android.permission.BLUETOOTH",
+                    "android.permission.INTERNET",
+            };
 
     private static final String TAG = "demo";
 
@@ -72,6 +83,9 @@ public class LoginActivity extends AppCompatActivity {
         storageRef = storage.getReference();
         db = FirebaseFirestore.getInstance();
 
+        //checking for all the permissions
+        CheckForALLPermissions();
+
         findViewById(R.id.sigin_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,6 +99,41 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void CheckForALLPermissions() {
+        boolean allGranted = true;
+        for (String permission : REQUIRED_PERMISSIONS){
+            Log.d(TAG, "CheckForALLPermissions: checking permission for=>"+permission);
+            if(ContextCompat.checkSelfPermission(this,permission)
+                    != PackageManager.PERMISSION_GRANTED){
+                allGranted = false;
+                break;
+            }
+        }
+        if (!allGranted)
+            ActivityCompat.requestPermissions(this,REQUIRED_PERMISSIONS,REQUEST_CODE_PERMISSIONS);
+        else
+            Log.d(TAG, "CheckForALLPermissions: all permission granted");
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if(requestCode == REQUEST_CODE_PERMISSIONS){
+
+            for (int i : grantResults){
+                Log.d(TAG, "onRequestPermissionsResult: grantResult "+i);
+                if(i != 0){
+                    Log.d(TAG, "onRequestPermissionsResult: permission not granted");
+                    Toast.makeText(this, "without Permissions App will not work Properly", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+            }
+            Log.d(TAG, "onRequestPermissionsResult: permission granted");
+            //use camera
+//            StartCamera();
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     private void dispatchTakePictureIntent() {
@@ -226,7 +275,14 @@ public class LoginActivity extends AppCompatActivity {
                     editor.commit();
                     hideProgressBarDialog();
                     Toast.makeText(LoginActivity.this, "Procceding with the face verification", Toast.LENGTH_SHORT).show();
+
+                    //Just commenting to pass the face verification.. remove the next line comment if you want face verification
                     dispatchTakePictureIntent();
+
+
+                   //Since thfe face verification is passed, calling the next actvity. When the above line is uncommented, comment the below two lines
+//                    Intent intent = new Intent(LoginActivity.this, ChannelListActivity.class);
+//                    startActivity(intent);
                 }else{
                     //It means that they are some error while signing up.
                     hideProgressBarDialog();
@@ -283,6 +339,7 @@ public class LoginActivity extends AppCompatActivity {
                 root = new JSONObject(result);
                 if(isStatus){
                     if(root.getString("isFaceSame").equals("true")){
+                        Log.d("demo","The token for the user is : " +root.getString("token"));
                         preferences = getApplicationContext().getSharedPreferences("TokeyKey",0);
                         editor = preferences.edit();
                         editor.putString("TOKEN_KEY",root.getString("token"));
@@ -313,7 +370,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onSuccess(Void aVoid) {
                 // File deleted successfully
                 hideProgressBarDialog();
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                Intent intent = new Intent(LoginActivity.this, ChannelListActivity.class);
                 startActivity(intent);
                 finish();
                 Log.d(TAG, "onSuccess: deleted file");

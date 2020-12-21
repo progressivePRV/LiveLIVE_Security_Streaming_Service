@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements Helper.InteractWithActivity {
 
-    private EditText editTextChannelId;
     private static final String TAG = "okay_MainActivity";
 //    boolean isUpStreamRequested = false;
     Helper helper;
@@ -22,16 +21,8 @@ public class MainActivity extends AppCompatActivity implements Helper.InteractWi
         setContentView(R.layout.activity_main);
 
         Log.d(TAG, "onCreate: called");
-        editTextChannelId = findViewById(R.id.editTextChannelId);
 
-        findViewById(R.id.btn_downStream).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "onClick: starting SFU Down stream");
-//                isUpStreamRequested = false;
-                StartSFUDownStream();
-            }
-        });
+        StartSFUDownStream();
 
 //        findViewById(R.id.btn_upstream).setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -61,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements Helper.InteractWi
 
     void StartSFUDownStream(){
         helper = new Helper(this,this,findViewById(R.id.preivew_container_inMain));
-        String channel_id = editTextChannelId.getText().toString();
+        String channel_id = getIntent().getExtras().getString("channelId");
         if(channel_id.equals("")){
             Toast.makeText(this, "Please enter a channel name to downstream", Toast.LENGTH_SHORT).show();
         }else{
