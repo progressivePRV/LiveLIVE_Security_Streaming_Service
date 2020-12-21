@@ -7,4 +7,9 @@
     <string name="downstream">DownStream</string>
     <string name="channel_id_name">Enter Channel ID name</string>
     <string name="channel_id">Enter Channel ID</string>
+    <string name="all_streams">All Streams</string>
+    <string name="favorite_streams">Favorite Streams</string>
+    <string name="exit_to_app">Logout</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

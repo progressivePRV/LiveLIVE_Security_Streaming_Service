@@ -71,6 +71,16 @@ public class LoginActivity extends AppCompatActivity {
         email_TIL = findViewById(R.id.email_TIL);
         password_TIL = findViewById(R.id.password_TIL);
 
+        preferences = getApplicationContext().getSharedPreferences("AdminTokenKey",0);
+        Log.d("demo",preferences.toString());
+
+        if(preferences != null && preferences.getString("TOKEN_KEY", null) != null && !preferences.getString("TOKEN_KEY", null).equals("")){
+            //it means that the token is there so go ahead and login
+            Toast.makeText(this, "Logging in", Toast.LENGTH_SHORT).show();
+            showProgressBarDialog();
+            new getAdminChannel().execute();
+        }
+
         findViewById(R.id.sigin_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -198,7 +208,88 @@ public class LoginActivity extends AppCompatActivity {
                     Log.d("demo",root.toString());
                     Admin admin = gson.fromJson(result1,Admin.class);
                     Log.d(TAG, "This is admin "+admin.toString());
-                    preferences = getApplicationContext().getSharedPreferences("AdminTokenKey",0);
+
+
+                        editor = preferences.edit();
+                        editor.putString("TOKEN_KEY",admin.token);
+                        editor.putString("ID",admin._id);
+                        editor.putString("ADMIN",gson.toJson(admin));
+                        editor.commit();
+                        hideProgressBarDialog();
+                        if(admin.channelId == null){
+                            Intent intent = new Intent(LoginActivity.this, CreateNewChannelActivity.class);
+                            ActivityOptions activityOptions =  ActivityOptions.makeSceneTransitionAnimation(LoginActivity.this,findViewById(R.id.app_icon_iv),"icon");
+                            startActivity(intent, activityOptions.toBundle());
+//                        startActivity(intent);
+                        }else{
+                            Intent i = new Intent(LoginActivity.this,ChannelInfo.class);
+                            i.putExtra("Admin_Obj",admin);
+                            ActivityOptions activityOptions =  ActivityOptions.makeSceneTransitionAnimation(LoginActivity.this,findViewById(R.id.app_icon_iv),"icon");
+                            startActivity(i, activityOptions.toBundle());
+//                        startActivity(i);
+                            Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+
+                }else{
+                    //It means that they are some error while signing up.
+                    hideProgressBarDialog();
+                    Toast.makeText(LoginActivity.this, root.getString("error"), Toast.LENGTH_SHORT).show();
+                }
+            } catch (JSONException e) {
+                hideProgressBarDialog();
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+    public class getAdminChannel extends AsyncTask<String, Void, String> {
+
+        boolean isStatus =true;
+
+        @Override
+        protected String doInBackground(String... strings) {
+            final OkHttpClient client = new OkHttpClient();
+            Log.d(TAG, "doInBackground: async called for login");
+
+            try {
+
+                Request request = new Request.Builder()
+                        .url(getResources().getString(R.string.endPointUrl)+"api/v1/admin/channels")
+                        .header("Authorization", "Bearer "+ preferences.getString("TOKEN_KEY", null))
+                        .build();
+                try (Response response = client.newCall(request).execute()) {
+                    String result = response.body().string();
+                    Log.d(TAG, "doInBackground: login response=>"+result);
+                    if (response.isSuccessful()){
+                        isStatus = true;
+                    }else{
+                        isStatus = false;
+                    }
+                    return result;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return "";
+        }
+
+        @Override
+        protected void onPostExecute(String result1) {
+            super.onPostExecute(result1);
+            JSONObject root = null;
+            Log.d("demo",result1);
+            try {
+                root = new JSONObject(result1);
+                if(isStatus){
+                    Log.d("demo",root.toString());
+                    String adminChannel = root.getString("adminChannel");
+                    Admin admin = gson.fromJson(adminChannel,Admin.class);
+                    Log.d(TAG, "This is admin "+admin.toString());
                     editor = preferences.edit();
                     editor.putString("TOKEN_KEY",admin.token);
                     editor.putString("ID",admin._id);

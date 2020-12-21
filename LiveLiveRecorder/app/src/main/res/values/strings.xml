@@ -22,4 +22,6 @@
     <string name="channel_name_hint">Channel Name</string>
     <string name="app_icon_desc">faded app icon a visual conetent</string>
     <string name="enter_email">Enter Email</string>
+
+    <string name="exit_to_app">Logout</string>
 </resources>
