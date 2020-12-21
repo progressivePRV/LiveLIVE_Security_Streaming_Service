@@ -736,8 +736,8 @@ route.post('/admin/verifyFace',[
 route.get('/user/verifyFace',async(request,response)=>{
 
     //url mandatory now. Write code to componse firebase URL here.
-    var url1 = "https://firebasestorage.googleapis.com/v0/b/faceverification-8f16a.appspot.com/o/image_"+loggedInUser._id+"_original.jpg?alt=media";
-    var url2 = "https://firebasestorage.googleapis.com/v0/b/faceverification-8f16a.appspot.com/o/image_"+loggedInUser._id+"_copy.jpg?alt=media";
+    var url1 = "https://firebasestorage.googleapis.com/v0/b/faceverification-8f16a.appspot.com/o/image_"+loggedInUser._id+"_original.jpg?alt=media&token=77c1ddf1-136c-40d9-9ce1-9bd1410d1bf7";
+    var url2 = "https://firebasestorage.googleapis.com/v0/b/faceverification-8f16a.appspot.com/o/image_"+loggedInUser._id+"_copy.jpg?alt=media&token=77c1ddf1-136c-40d9-9ce1-9bd1410d1bf7";
 
     try{
         const res1 = await axios.post('https://face-api-for-amad.cognitiveservices.azure.com/face/v1.0/detect',
@@ -772,6 +772,8 @@ route.get('/user/verifyFace',async(request,response)=>{
         }
         if(!Array.isArray(res1.data) || !Array.isArray(res2.data) || res1.data.length!=1 || res2.data.length!=1){
             closeConnection();
+            console.log(res1.data);
+            console.log(res2.data);
             return response.status(400).json({"error":'images either contain no faces or more than one face. Please try again','errorCode':123});
         }
         if(!res1.data[0].faceId || !res2.data[0].faceId){
@@ -818,7 +820,7 @@ route.get('/user/verifyFace',async(request,response)=>{
     catch(e){
         closeConnection();
         //console.log(e);
-        return response.status(400).json({"error":e.toString(),'errorCode':124});
+        return response.status(400).json({"error":e,'errorCode':124});
     }
 })
 
