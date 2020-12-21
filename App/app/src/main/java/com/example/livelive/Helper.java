@@ -52,17 +52,20 @@ public class Helper {
     }
 
 
-    String GetClientToken(){
+    String GetClientToken(String sharedSecret, String applicationId){
         Log.d(TAG, "GetClientToken: called");
-        String t_applicationId = "c4193#662-92#71-42#d7-b5#43-a84b#abd00#3d4";
-        String applicationId = t_applicationId.replaceAll("#","");
+//        String t_applicationId = "c4193#662-92#71-42#d7-b5#43-a84b#abd00#3d4";
+//        String applicationId = t_applicationId.replaceAll("#","");
 //        String userId = "something@gmail.com";
+
         String t_deviceid = fm.liveswitch.Guid.newGuid().toString();
         Log.d(TAG, "GetClienttoken: t_device_id=>"+t_deviceid);
         String deviceId = t_deviceid.replaceAll("-", "");
-        String t_sharedSecret = "66e-f317eb4674d3a8-5536279f2f5bf5cf4-efc474212e4b469d-7b4505ee1e7-752";
-        String sharedSecret = t_sharedSecret.replaceAll("-","");
+
+//        String t_sharedSecret = "66e-f317eb4674d3a8-5536279f2f5bf5cf4-efc474212e4b469d-7b4505ee1e7-752";
+//        String sharedSecret = t_sharedSecret.replaceAll("-","");
 //        String channelId = "Trial_v1";
+
         String gatwayUrl = "https://cloud.liveswitch.io/";
 
         this.client = new fm.liveswitch.Client(gatwayUrl, applicationId, userId, deviceId, null, null);
