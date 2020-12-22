@@ -17,6 +17,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -51,6 +54,9 @@ public class All_Stream_Fragment extends Fragment implements AllStreamsAdapter.I
     private RecyclerView.LayoutManager layoutManager;
     List<Streams> streamsList = new ArrayList<>();
     Gson gson = new Gson();
+    private ImageButton channelSearchButton;
+    private ImageButton cancelSearchButton;
+    private EditText searchChannelsByName;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -109,16 +115,43 @@ public class All_Stream_Fragment extends Fragment implements AllStreamsAdapter.I
 
         recyclerView.setAdapter(mAdapter);
         recyclerView.requestDisallowInterceptTouchEvent(true);
-
+        searchChannelsByName = getView().findViewById(R.id.searchChannelsByName);
+        channelSearchButton = getView().findViewById(R.id.channelSearchButton);
+        cancelSearchButton = getView().findViewById(R.id.cancelSearchButton);
         Log.d("demo", "Entering all the stream fragment");
+
+        channelSearchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String searchChannel = searchChannelsByName.getText().toString().trim();
+                if(searchChannel.equals("")){
+                    Toast.makeText(getActivity(), "Search By Channel Name cannot be Empty", Toast.LENGTH_SHORT).show();
+                }else{
+                    showProgressBarDialog();
+                    cancelSearchButton.setVisibility(ImageButton.VISIBLE);
+                    channelSearchButton.setVisibility(ImageButton.INVISIBLE);
+                    new getUsersStreamChannels(getResources().getString(R.string.endPointUrl)+"api/v1/user/channels?channelName="+searchChannel).execute();
+                }
+            }
+        });
+
+        cancelSearchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showProgressBarDialog();
+                searchChannelsByName.setText("");
+                cancelSearchButton.setVisibility(ImageButton.INVISIBLE);
+                channelSearchButton.setVisibility(ImageButton.VISIBLE);
+                new getUsersStreamChannels(getResources().getString(R.string.endPointUrl)+"api/v1/user/channels").execute();
+            }
+        });
     }
 
     @Override
     public void onResume() {
         super.onResume();
         showProgressBarDialog();
-        streamsList.clear();
-        new getUsersStreamChannels().execute();
+        new getUsersStreamChannels(getResources().getString(R.string.endPointUrl)+"api/v1/user/channels").execute();
     }
 
     @Override
@@ -139,14 +172,22 @@ public class All_Stream_Fragment extends Fragment implements AllStreamsAdapter.I
 
     public class getUsersStreamChannels extends AsyncTask<String, Void, String> {
         boolean isStatus = true;
+        String getChannelUrl;
+
+        public getUsersStreamChannels(String getChannelUrl) {
+            this.getChannelUrl = getChannelUrl;
+        }
 
         @Override
         protected String doInBackground(String... strings) {
+
             final OkHttpClient client = new OkHttpClient();
+
+//            String getChannelUrl =  getResources().getString(R.string.endPointUrl)+"api/v1/user/channels";
 
             Log.d("demo", "entering do in Background");
             Request request = new Request.Builder()
-                    .url(getResources().getString(R.string.endPointUrl)+"api/v1/user/channels")
+                    .url(getChannelUrl)
                     .header("Authorization", "Bearer "+ preferences.getString("TOKEN_KEY", null))
                     .build();
 
@@ -169,6 +210,7 @@ public class All_Stream_Fragment extends Fragment implements AllStreamsAdapter.I
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            streamsList.clear();
             Log.d("streaming broadcasting : ", s);
             if(s!=null){
                 JSONArray root = null;
@@ -192,11 +234,7 @@ public class All_Stream_Fragment extends Fragment implements AllStreamsAdapter.I
                     }
 
                     Log.d("demo",streamsList.toString());
-                    if(streamsList.size() <= 0){
-                        Toast.makeText(getActivity(), "Sorry no channels found", Toast.LENGTH_SHORT).show();
-                    }else{
-                        mAdapter.notifyDataSetChanged();
-                    }
+                    mAdapter.notifyDataSetChanged();
 
                 } catch (JSONException e) {
                     e.printStackTrace();
