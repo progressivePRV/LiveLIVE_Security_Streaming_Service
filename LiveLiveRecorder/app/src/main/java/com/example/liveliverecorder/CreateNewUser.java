@@ -119,10 +119,15 @@ public class CreateNewUser extends AppCompatActivity {
     }
 
     private void dispatchTakePictureIntent() {
+//        MediaStore.ACTION_IMAGE_CAPTURE
         Intent takePictureIntent = new Intent("android.media.action.IMAGE_CAPTURE");
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
+
+        // approach 2
+//        Intent takePictureIntent = new Intent(this,TakePicture.class);
+//        startActivity(takePictureIntent);
     }
 
     @Override

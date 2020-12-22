@@ -52,7 +52,7 @@ public class Favorite_Streams_Fragment extends Fragment implements FavoriteAdapt
 
     //////// approach one
     List<Streams> streamsList = new ArrayList<>();
-    List<Streams> streamsFromRoom = new ArrayList<>();
+    List<Streams> currentFavFromRoom = new ArrayList<>();
 
     public Favorite_Streams_Fragment() {
         // Required empty public constructor
@@ -144,6 +144,7 @@ public class Favorite_Streams_Fragment extends Fragment implements FavoriteAdapt
                     mAdapter = new FavoriteAdapter(favArrayList, Favorite_Streams_Fragment.this,getActivity());
                     recyclerView.setAdapter(mAdapter);
                 }
+                currentFavFromRoom = favArrayList;
             }
         });
     }
@@ -167,7 +168,15 @@ public class Favorite_Streams_Fragment extends Fragment implements FavoriteAdapt
     void UpdateChannelList(List<Streams> streams){
         Log.d(TAG, "UpdateChannelList: getting stream in favorite");
         streamsList = streams;
-        Log.d("demo","My Favorite Aerraylist is : "+favArrayList.toString());
+        for (Streams s_from_room: currentFavFromRoom ){
+            boolean isPresent = false;
+            for (Streams new_stream : streams){
+                if (s_from_room.channelId.equals(new_stream.channelId)) isPresent = true;
+            }
+            if (!isPresent){
+                viewModel.DeleteStream(s_from_room);
+            }
+        }
     }
 ///////////////////////////
 
