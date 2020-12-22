@@ -178,6 +178,8 @@ concern for everyone.
 
 ## External Links:
 
+[Project Presentation](https://drive.google.com/file/d/1mMr2Ajiu2_xBMRDU-ne58PMmwaSxWZWP/view?usp=sharing)
+
 [XD Prototype of User App](https://xd.adobe.com/view/f3a1ceb6-249b-49e4-9e2e-b4c966ab3a31-a6f2/)
 
 [XD Prototype of Streaming App](https://xd.adobe.com/view/a27c3731-8312-45a7-8d8a-01f12889dbfc-f72f/)
