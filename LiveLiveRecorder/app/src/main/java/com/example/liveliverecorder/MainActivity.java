@@ -21,6 +21,7 @@ import java.io.IOException;
 
 import fm.liveswitch.android.Camera2Source;
 import okhttp3.FormBody;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -243,14 +244,18 @@ public class MainActivity extends AppCompatActivity implements Helper.InteractWi
         protected String doInBackground(String... strings) {
             final OkHttpClient client = new OkHttpClient();
 
-            RequestBody formBody = new FormBody.Builder()
-                    .add("isBroadcasting","false")
-                    .build();
+            MediaType MEDIA_TYPE_JSON
+                    = MediaType.parse("application/json");
 
+//            RequestBody formBody = new FormBody.Builder()
+//                    .add("isBroadcasting","false")
+//                    .build();
+
+            String post = "{\"isBroadcasting\":false}";
             Request request = new Request.Builder()
                     .url(getResources().getString(R.string.endPointUrl)+"api/v1/admin/broadcasting")
                     .header("Authorization", "Bearer "+ preferences.getString("TOKEN_KEY", null))
-                    .put(formBody)
+                    .put(RequestBody.create(post,MEDIA_TYPE_JSON))
                     .build();
 
             String responseValue = null;

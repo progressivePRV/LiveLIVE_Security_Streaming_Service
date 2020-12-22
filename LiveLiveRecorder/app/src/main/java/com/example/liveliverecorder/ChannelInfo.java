@@ -35,6 +35,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import okhttp3.FormBody;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -121,13 +122,8 @@ public class ChannelInfo extends AppCompatActivity implements UserListAdapter.In
             @Override
             public void onClick(View v) {
                 //setting the broadcasting status to true here
-                if(admin.isBroadcasting == false){
                     showProgressBarDialog();
                     new setBroadcastingStatus().execute();
-                }
-                else{
-                    Toast.makeText(ChannelInfo.this, "You are authorized to broadcast in only one device. Please stop the broadcasting in that device and try again.", Toast.LENGTH_SHORT).show();
-                }
             }
         });
 
@@ -261,16 +257,21 @@ public class ChannelInfo extends AppCompatActivity implements UserListAdapter.In
 
         @Override
         protected String doInBackground(String... strings) {
+            Log.d(TAG, "streaming broadcasting: called for setBroadcastingStatus");
             final OkHttpClient client = new OkHttpClient();
 
-            RequestBody formBody = new FormBody.Builder()
-                    .add("isBroadcasting","true")
-                    .build();
+//            RequestBody formBody = new FormBody.Builder()
+//                    .add("isBroadcasting","true")
+//                    .build();
+            MediaType MEDIA_TYPE_JSON
+                    = MediaType.parse("application/json");
+
+            String post = "{\"isBroadcasting\":true}";
 
             Request request = new Request.Builder()
                     .url(getResources().getString(R.string.endPointUrl)+"api/v1/admin/broadcasting")
                     .header("Authorization", "Bearer "+ preferences.getString("TOKEN_KEY", null))
-                    .put(formBody)
+                    .put(RequestBody.create(post,MEDIA_TYPE_JSON))
                     .build();
 
             String responseValue = null;
@@ -306,7 +307,7 @@ public class ChannelInfo extends AppCompatActivity implements UserListAdapter.In
                             startActivity(i);
                         }
                     }else{
-                        Toast.makeText(ChannelInfo.this, "Error occurred in starting the live stream. Please click on the start stream again.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ChannelInfo.this, root.getString("error"), Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
