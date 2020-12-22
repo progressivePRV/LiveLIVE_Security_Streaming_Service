@@ -167,7 +167,7 @@ public class Favorite_Streams_Fragment extends Fragment implements FavoriteAdapt
     void UpdateChannelList(List<Streams> streams){
         Log.d(TAG, "UpdateChannelList: getting stream in favorite");
         streamsList = streams;
-        Log.d("demo","My Favoite Arraylist is : "+favArrayList.toString());
+        Log.d("demo","My Favorite Aerraylist is : "+favArrayList.toString());
     }
 ///////////////////////////
 

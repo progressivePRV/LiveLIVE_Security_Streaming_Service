@@ -136,6 +136,18 @@ public class MainActivity extends AppCompatActivity implements Helper.InteractWi
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try {
+            helper.CloseSFUConnections();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d(TAG, "onStop: exception msg=>"+e.getMessage());
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
     //Async task for getting the stream details from Liveswitch
     public class getStreamDetails extends AsyncTask<String, Void, String> {
         boolean isStatus = true;
