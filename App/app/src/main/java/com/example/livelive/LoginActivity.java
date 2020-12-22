@@ -34,6 +34,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.google.gson.Gson;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -88,6 +89,16 @@ public class LoginActivity extends AppCompatActivity {
 
         //checking for all the permissions
         CheckForALLPermissions();
+
+        preferences = getApplicationContext().getSharedPreferences("TokeyKey",0);
+        Log.d("demo",preferences.toString());
+
+        if(preferences != null && preferences.getString("TOKEN_KEY", null) != null && !preferences.getString("TOKEN_KEY", null).equals("")){
+            //it means that the token is there so go ahead and login
+            Toast.makeText(this, "Logging in", Toast.LENGTH_SHORT).show();
+            showProgressBarDialog();
+            new getUserProfile().execute();
+        }
 
         findViewById(R.id.sigin_button).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -427,6 +438,54 @@ public class LoginActivity extends AppCompatActivity {
                 Log.d(TAG, "onFailure: did not delete file");
             }
         });
+    }
+
+    public class getUserProfile extends AsyncTask<String, Void, String> {
+        boolean isStatus = true;
+
+        @Override
+        protected String doInBackground(String... strings) {
+
+            final OkHttpClient client = new OkHttpClient();
+
+            Log.d("demo", "entering do in Background");
+            Request request = new Request.Builder()
+                    .url(getResources().getString(R.string.endPointUrl)+"api/v1/user/profile")
+                    .header("Authorization", "Bearer "+ preferences.getString("TOKEN_KEY", null))
+                    .build();
+
+            String responseValue = null;
+            try (Response response = client.newCall(request).execute()) {
+                if(response.isSuccessful()){
+                    isStatus = true;
+                }else{
+                    isStatus = false;
+                }
+                Log.d("demo"," "+response.isSuccessful());
+                responseValue = response.body().string();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return responseValue;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            Log.d("demo", s);
+            if(s!=null){
+                    hideProgressBarDialog();
+                    if(isStatus){
+                        Intent intent = new Intent(LoginActivity.this, ChannelListActivity.class);
+                        ActivityOptions activityOptions =  ActivityOptions.makeSceneTransitionAnimation(LoginActivity.this,findViewById(R.id.app_icon_iv),"icon");
+                        startActivity(intent, activityOptions.toBundle());
+                        finish();
+                    }else{
+                        Toast.makeText(LoginActivity.this, "Token Expired. Please login again", Toast.LENGTH_SHORT).show();
+                    }
+            }
+        }
     }
 
     //for showing the progress dialog

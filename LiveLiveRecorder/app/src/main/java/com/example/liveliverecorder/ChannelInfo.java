@@ -2,11 +2,13 @@ package com.example.liveliverecorder;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -66,13 +68,27 @@ public class ChannelInfo extends AppCompatActivity implements UserListAdapter.In
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.logout:
-                preferences = getApplicationContext().getSharedPreferences("AdminTokenKey",0);
-                editor = preferences.edit();
-                editor.clear();
-                editor.commit();
-                Intent intent = new Intent(ChannelInfo.this, LoginActivity.class);
-                startActivity(intent);
-                finish();
+                AlertDialog.Builder builder = new AlertDialog.Builder(ChannelInfo.this);
+                builder.setMessage("Are you sure you want to logout?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                Log.d(TAG, "onClick: user clicked ok for alert");
+                                preferences = getApplicationContext().getSharedPreferences("AdminTokenKey",0);
+                                editor = preferences.edit();
+                                editor.clear();
+                                editor.commit();
+                                Intent intent = new Intent(ChannelInfo.this, LoginActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Log.d(TAG, "onClick: user canceled the alert from notification");
+                    }
+                });
+                builder.create();
+                builder.show();
                 break;
         }
         return super.onOptionsItemSelected(item);

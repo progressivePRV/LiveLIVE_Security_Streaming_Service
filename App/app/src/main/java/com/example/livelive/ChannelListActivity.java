@@ -1,11 +1,14 @@
 package com.example.livelive;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -31,11 +34,25 @@ public class ChannelListActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.logout:
-                getApplicationContext().getSharedPreferences("TokeyKey",0)
-                        .edit().clear().commit();
-                Intent i = new Intent(this, MainActivity.class);
-                startActivity(i);
-                finish();
+                AlertDialog.Builder builder = new AlertDialog.Builder(ChannelListActivity.this);
+                builder.setMessage("Are you sure you want to logout?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                Log.d(TAG, "onClick: user clicked ok for alert");
+                                getApplicationContext().getSharedPreferences("TokeyKey",0)
+                                        .edit().clear().commit();
+                                Intent i = new Intent(ChannelListActivity.this, LoginActivity.class);
+                                startActivity(i);
+                                finish();
+                            }
+                        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Log.d(TAG, "onClick: user canceled the alert from notification");
+                    }
+                });
+                builder.create();
+                builder.show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
