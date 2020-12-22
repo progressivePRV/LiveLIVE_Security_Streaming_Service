@@ -186,15 +186,13 @@ public class CreateNewChannelActivity extends AppCompatActivity implements UserL
             public void onClick(View view) {
                 String name = ((Chip)view).getText().toString();
                 Log.d(TAG, "onClick: "+name+" chip");
-                int index = (int) view.getTag();
                 for(int i = 0; i<userArrayList.size();i++){
                     if (userArrayList.get(i).equals(name)){
                         userArrayList.remove(i);
-                        break;
+                        chipGroup.removeViewAt(i);
                     }
                 }
-                userArrayList.remove(index);
-                chipGroup.removeViewAt(index);
+
             }
         };
         for(int i=0;i<userArrayList.size();i++){
