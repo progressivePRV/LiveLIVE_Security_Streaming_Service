@@ -99,6 +99,12 @@ public class MainActivity extends AppCompatActivity implements Helper.InteractWi
     }
 
     @Override
+    public void ConnectionClosed() {
+        Toast.makeText(this, "Video is Failing or remote connection is closed", Toast.LENGTH_SHORT).show();
+        finish();
+    }
+
+    @Override
     public void StartedLocalMediaCapture() {
         // send media to up stream
         helper.CreateSFU_UpStreamConnection();

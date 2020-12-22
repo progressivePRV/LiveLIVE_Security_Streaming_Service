@@ -290,10 +290,12 @@ public class Helper {
 //                System.out.println("an error occurred");
             });
             /////////// tear down
+            Log.d(TAG, "CreateSFU_DownStreamConnection: adding on state change listener");
             SFU_down_connection.addOnStateChange((fm.liveswitch.ManagedConnection c) -> {
                 if (c.getState() == fm.liveswitch.ConnectionState.Closing || c.getState() == fm.liveswitch.ConnectionState.Failing) {
                     mainActivity.runOnUiThread(()->{
                         layoutManager.removeRemoteView(remoteMedia.getId());
+                        interact.ConnectionClosed();
                     });
                     Log.d(TAG, "CreateSFU_DownStreamConnection: SFU_down_connection.addOnStateChange called");
                 }
@@ -337,6 +339,7 @@ public class Helper {
     interface InteractWithActivity{
         void ClientRegistered();
         void ChannelJoined();
+        void ConnectionClosed();
 //        void InitializedTheLocalMedia();
         void StartedLocalMediaCapture();
         void CreatedSFU_UpStreamConnection();
