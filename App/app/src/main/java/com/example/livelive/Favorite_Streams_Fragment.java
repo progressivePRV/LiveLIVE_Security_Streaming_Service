@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.support.v4.app.INotificationSideChannel;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,7 +48,11 @@ public class Favorite_Streams_Fragment extends Fragment implements FavoriteAdapt
     private String mParam2;
 
     private AppViewModel viewModel;
-    private static final String TAG = "okay";
+    private static final String TAG = "okay_Favorite_streamFragment";
+
+    //////// approach one
+    List<Streams> streamsList = new ArrayList<>();
+    List<Streams> streamsFromRoom = new ArrayList<>();
 
     public Favorite_Streams_Fragment() {
         // Required empty public constructor
@@ -143,4 +148,12 @@ public class Favorite_Streams_Fragment extends Fragment implements FavoriteAdapt
         intent.putExtra("channelId", channelId);
         startActivity(intent);
     }
+    ////////////////// approach one
+    void UpdateChannelList(List<Streams> streams){
+        Log.d(TAG, "UpdateChannelList: getting stream in favorite");
+        streamsList = streams;
+
+    }
+///////////////////////////
+
 }
