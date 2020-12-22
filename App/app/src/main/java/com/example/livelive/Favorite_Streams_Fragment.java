@@ -107,12 +107,27 @@ public class Favorite_Streams_Fragment extends Fragment implements FavoriteAdapt
         viewModel.GetStreamsForUser(user._id).observe(getActivity(), new Observer<List<Streams>>() {
             @Override
             public void onChanged(List<Streams> streams) {
+                favArrayList.clear();
                 Log.d(TAG, "onChanged: got "+streams.size()+" orders for user1");
                 if (!streams.isEmpty()){
+                    Log.d("demo","The streamList are : "+streamsList.toString() +"Done ... ");
 //                    Log.d(TAG, "onChanged: first order for user1=>"+orders.get(0));
                     favArrayList = new ArrayList<>();
-                    favArrayList = streams;
-                    Log.d("demo",favArrayList.toString());
+                    for(Streams streams1 : streams){
+                        int size = favArrayList.size();
+                        for(Streams auth : streamsList){
+                            if(streams1.channelId.equals(auth.channelId)){
+                                favArrayList.add(streams1);
+                                break;
+                            }
+                        }
+                        if(favArrayList.size() != size+1){
+                            //It means that the stream is no more autorized for the user. So we have to delete the stream.
+                            viewModel.DeleteStream(streams1);
+                        }
+                    }
+//                    favArrayList = streams;
+                    Log.d("demo","Fav array list : " +favArrayList.toString());
                     recyclerView = getView().findViewById(R.id.favRecyclerView);
 
                     layoutManager = new LinearLayoutManager(getActivity());
@@ -134,11 +149,11 @@ public class Favorite_Streams_Fragment extends Fragment implements FavoriteAdapt
     }
 
     @Override
-    public void getDetails(Streams order, String Operation) {
+    public void getDetails(Streams stream, String Operation) {
         if(Operation.equals("add")){
-            viewModel.InsertOrder(order);
+            viewModel.InsertStream(stream);
         }else if(Operation.equals("delete")){
-            viewModel.DeleteOrder(order);
+            viewModel.DeleteStream(stream);
         }
     }
 
@@ -152,6 +167,7 @@ public class Favorite_Streams_Fragment extends Fragment implements FavoriteAdapt
     void UpdateChannelList(List<Streams> streams){
         Log.d(TAG, "UpdateChannelList: getting stream in favorite");
         streamsList = streams;
+        Log.d("demo","My Favoite Arraylist is : "+favArrayList.toString());
     }
 ///////////////////////////
 
