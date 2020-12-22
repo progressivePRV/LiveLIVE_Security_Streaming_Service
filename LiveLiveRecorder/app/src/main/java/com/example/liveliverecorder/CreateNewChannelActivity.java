@@ -46,13 +46,13 @@ public class CreateNewChannelActivity extends AppCompatActivity implements UserL
     private static final String EDIT_STREAM = "EDITSTREAM";
     private static final String  CREATE_STREAM = "CREATESTREAM";
     private EditText editTextUserName;
-    private RecyclerView recyclerView;
+//    private RecyclerView recyclerView;
     private ProgressDialog progressDialog;
-    private RecyclerView.Adapter mAdapter;
+//    private RecyclerView.Adapter mAdapter;
     SharedPreferences preferences;
     ChipGroup chipGroup;
     Gson gson = new Gson();
-    private RecyclerView.LayoutManager layoutManager;
+//    private RecyclerView.LayoutManager layoutManager;
     private Button buttonEditStream, buttonCreateStream;
 //    private EditText editTextStreamName;
     TextInputEditText TIETStreamName;
@@ -96,14 +96,14 @@ public class CreateNewChannelActivity extends AppCompatActivity implements UserL
             buttonEditStream.setVisibility(Button.INVISIBLE);
         }
 
-        recyclerView = (RecyclerView) findViewById(R.id.usersRecyclerView);
-
-        layoutManager = new LinearLayoutManager(CreateNewChannelActivity.this);
-        recyclerView.setLayoutManager(layoutManager);
-
-        // specify an adapter (see also next example)
-        mAdapter = new UserListAdapter(userArrayList, CreateNewChannelActivity.this, true);
-        recyclerView.setAdapter(mAdapter);
+//        recyclerView = (RecyclerView) findViewById(R.id.usersRecyclerView);
+//
+//        layoutManager = new LinearLayoutManager(CreateNewChannelActivity.this);
+//        recyclerView.setLayoutManager(layoutManager);
+//
+//        // specify an adapter (see also next example)
+//        mAdapter = new UserListAdapter(userArrayList, CreateNewChannelActivity.this, true);
+//        recyclerView.setAdapter(mAdapter);
         preferences = getApplicationContext().getSharedPreferences("AdminTokenKey",0);
 
         findViewById(R.id.buttonAddUser).setOnClickListener(new View.OnClickListener() {
@@ -179,6 +179,7 @@ public class CreateNewChannelActivity extends AppCompatActivity implements UserL
     }
 
     private void UpdateChips() {
+        chipGroup.removeAllViews();
         View.OnClickListener onChipClick =  new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -302,14 +303,14 @@ public class CreateNewChannelActivity extends AppCompatActivity implements UserL
             //////////// adding user chips
             UpdateChips();
             ///////////
-            mAdapter.notifyDataSetChanged();
+//            mAdapter.notifyDataSetChanged();
         }
     }
 
     @Override
     public void deleteItem(int position) {
         userArrayList.remove(position);
-        mAdapter.notifyDataSetChanged();
+//        mAdapter.notifyDataSetChanged();
     }
 
     public class checkUser extends AsyncTask<String, Void, String> {
@@ -351,7 +352,10 @@ public class CreateNewChannelActivity extends AppCompatActivity implements UserL
                 hideProgressBarDialog();
                 if(root.getBoolean("userFound")){
                     userArrayList.add(email);
-                    mAdapter.notifyDataSetChanged();
+                    //////////// adding user chips
+                    UpdateChips();
+                    ///////////
+//                    mAdapter.notifyDataSetChanged();
                 }else{
                     Toast.makeText(CreateNewChannelActivity.this, "Please enter a valid user email address", Toast.LENGTH_SHORT).show();
                 }

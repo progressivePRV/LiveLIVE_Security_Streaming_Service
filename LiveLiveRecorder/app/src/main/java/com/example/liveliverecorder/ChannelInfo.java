@@ -47,12 +47,12 @@ public class ChannelInfo extends AppCompatActivity implements UserListAdapter.In
     TextView channelName;
     ChipGroup chipGroup;
     ListView listView;
-    private RecyclerView recyclerView;
-    private RecyclerView.Adapter mAdapter;
+//    private RecyclerView recyclerView;
+//    private RecyclerView.Adapter mAdapter;
     private ProgressDialog progressDialog;
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
-    private RecyclerView.LayoutManager layoutManager;
+//    private RecyclerView.LayoutManager layoutManager;
     Admin admin;
 
     @Override
@@ -162,6 +162,7 @@ public class ChannelInfo extends AppCompatActivity implements UserListAdapter.In
 //                chipGroup.removeViewAt(index);
 //            }
 //        };
+        chipGroup.removeAllViews();
         for(int i=0;i<admin.users.size();i++){
             Chip c1 =  new Chip(this);
             c1.setText(admin.users.get(i));
@@ -178,13 +179,13 @@ public class ChannelInfo extends AppCompatActivity implements UserListAdapter.In
     private void SetValuesInUI() {
         Log.d(TAG, "SetValuesInUI: called");
         channelName.setText(admin.channelName);
-        recyclerView = (RecyclerView) findViewById(R.id.listview_inChannelInfo);
-        layoutManager = new LinearLayoutManager(ChannelInfo.this);
-        recyclerView.setLayoutManager(layoutManager);
-        // specify an adapter (see also next example)
-        Log.d("demo"," List of the users : " +admin.users.toString());
-        mAdapter = new UserListAdapter(admin.users, ChannelInfo.this, false);
-        recyclerView.setAdapter(mAdapter);
+//        recyclerView = (RecyclerView) findViewById(R.id.listview_inChannelInfo);
+//        layoutManager = new LinearLayoutManager(ChannelInfo.this);
+//        recyclerView.setLayoutManager(layoutManager);
+//        // specify an adapter (see also next example)
+//        Log.d("demo"," List of the users : " +admin.users.toString());
+//        mAdapter = new UserListAdapter(admin.users, ChannelInfo.this, false);
+//        recyclerView.setAdapter(mAdapter);
     }
 
 

@@ -12,5 +12,19 @@
 <!--        &lt;!&ndash; Status bar color. &ndash;&gt;-->
 <!--        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>-->
 <!--        &lt;!&ndash; Customize your theme here. &ndash;&gt;-->
+
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/primary_proto</item>
+        <item name="colorPrimaryVariant">@color/primary_variant_proto</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/secondary_proto</item>
+        <item name="colorSecondaryVariant">@color/secondary_variant_proto</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+        <!-- enable window content transitions -->
+        <item name="android:windowActivityTransitions">true</item>
     </style>
 </resources>
