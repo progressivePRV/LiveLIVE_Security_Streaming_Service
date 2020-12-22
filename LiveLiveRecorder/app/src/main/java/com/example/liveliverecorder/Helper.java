@@ -244,7 +244,7 @@ public class Helper {
             this.localMedia = null;
             // after this leave the channel
             try {
-                LeaveAChannel();
+//                LeaveAChannel();
             } catch (Exception e) {
                 e.printStackTrace();
                 Log.d(TAG, "stopLocalMediaCapture: exception while leaving the channel e =>"+e.getMessage());
