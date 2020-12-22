@@ -24,14 +24,14 @@ public class AppViewModel extends AndroidViewModel {
         streamsDAO = db.streamsDAO();
     }
 
-    public void InsertOrder(Streams streams){
+    public void InsertStream(Streams streams){
         new InsertStream(streamsDAO).execute(streams);
     }
 
     public LiveData<List<Streams>> GetStreamsForUser(String uid){
         return streamsDAO.FindAllStreamsForUser(uid);
     }
-    public void DeleteOrder(Streams streams){
+    public void DeleteStream(Streams streams){
         new DeleteStream(streamsDAO).execute(streams);
     }
 

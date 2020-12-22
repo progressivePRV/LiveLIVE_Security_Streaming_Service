@@ -166,11 +166,11 @@ public class All_Stream_Fragment extends Fragment implements AllStreamsAdapter.I
     }
 
     @Override
-    public void getDetails(Streams order, String Operation) {
+    public void getDetails(Streams stream, String Operation) {
         if(Operation.equals("add")){
-            viewModel.InsertOrder(order);
+            viewModel.InsertStream(stream);
         }else if(Operation.equals("delete")){
-            viewModel.DeleteOrder(order);
+            viewModel.DeleteStream(stream);
         }
     }
 ////////////////// approach one
