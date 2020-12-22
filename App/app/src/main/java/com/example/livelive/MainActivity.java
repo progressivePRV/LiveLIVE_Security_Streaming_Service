@@ -38,8 +38,9 @@ public class MainActivity extends AppCompatActivity implements Helper.InteractWi
 
         Log.d(TAG, "onCreate: called");
 
-        timer_tv = findViewById(R.id.time_tv);
-        time_dec = findViewById(R.id.time_txt_dec);
+//        timer_tv = findViewById(R.id.time_tv);
+//        time_dec = findViewById(R.id.time_txt_dec);
+
         showProgressBarDialog();
         new getStreamDetails().execute();
 
@@ -47,10 +48,12 @@ public class MainActivity extends AppCompatActivity implements Helper.InteractWi
             @Override
             public void onTick(long millisUntilFinished) {
                 Log.d(TAG, "onTick: ");
-                timer_tv.setText(millisUntilFinished / 1000+" s");
+//                timer_tv.setText(millisUntilFinished / 1000+" s");
             }
             @Override
             public void onFinish() {
+                Toast.makeText(MainActivity.this, "There was no video feed available for 30s, Connection Failed", Toast.LENGTH_LONG).show();
+                Log.d(TAG, "onFinish: CountDownTimer finish called");
                 finish();
             }
         };
@@ -137,8 +140,8 @@ public class MainActivity extends AppCompatActivity implements Helper.InteractWi
     @Override
     public void CreatedSFU_DownStreamConnection() {
         cdt.cancel();
-        timer_tv.setVisibility(View.GONE);
-        time_dec.setVisibility(View.GONE);
+//        timer_tv.setVisibility(View.GONE);
+//        time_dec.setVisibility(View.GONE);
     }
 
 

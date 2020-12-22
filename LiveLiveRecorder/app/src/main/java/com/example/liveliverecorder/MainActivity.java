@@ -126,6 +126,9 @@ public class MainActivity extends AppCompatActivity implements Helper.InteractWi
     @Override
     public void StartedLocalMediaCapture() {
         // send media to up stream
+        ///////trying
+//        throw new NullPointerException("trying raising null pointer exception");
+        /////
         helper.CreateSFU_UpStreamConnection();
     }
 

@@ -31,6 +31,7 @@ public class Helper {
     Channel channel;
 
     fm.liveswitch.SfuDownstreamConnection SFU_down_connection;
+    fm.liveswitch.IAction1<fm.liveswitch.ConnectionInfo> value;   ///////  on remote open connection
     fm.liveswitch.SfuUpstreamConnection SFU_up_connection;
 
     public Helper(MainActivity activity,Context ctx, RelativeLayout relativeLayout) {
@@ -167,6 +168,8 @@ public class Helper {
         if (token == null){
             throw new Exception("'GetClientToken()' is not called yet, can't proceed further");
         }
+        Log.d(TAG, "LeaveAChannel: removing OnRemoteUpstreamConnectionOpen listener");
+        channel.removeOnRemoteUpstreamConnectionOpen(value);
         client.leave(channelId).then((Channel channel) -> {
             Log.d(TAG, "LeaveAChannel: left the channel");
 //            System.out.println("left the channel");
@@ -263,7 +266,7 @@ public class Helper {
     void CreateSFU_DownStreamConnection(){
         Log.d(TAG, "CreateSFU_DownStreamConnection: called");
         Log.d(TAG, "CreateSFU_DownStreamConnection: called, listening for remote up stream connection, i.e. waiting for another device to send the stream.");
-        channel.addOnRemoteUpstreamConnectionOpen((fm.liveswitch.ConnectionInfo remoteConnectionInfo) -> {
+        value = (fm.liveswitch.ConnectionInfo remoteConnectionInfo) -> {
             Log.d(TAG, "CreateSFU_DownStreamConnection: got a remote connection");
             Log.d(TAG, "CreateSFU_DownStreamConnection: counts streams=>"+channel.getRemoteUpstreamConnectionInfos().length);
             // as layout manager is not set
@@ -301,7 +304,9 @@ public class Helper {
                 }
             });
 
-        });
+        };
+
+        channel.addOnRemoteUpstreamConnectionOpen(value);
     }
 
     void CloseSFUConnections(){
