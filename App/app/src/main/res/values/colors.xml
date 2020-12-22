@@ -21,4 +21,5 @@
     <color name="colorText">#4b5262</color>
     <color name="ColorSecondary">#f0634e</color>
     <color name="BackgroundColor">#faf7f2</color>
+    <color name="all_stream_list">#FFF9C1</color>
 </resources>

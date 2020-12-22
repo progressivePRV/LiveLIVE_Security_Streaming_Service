@@ -1,5 +1,8 @@
 package com.example.livelive;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,14 +15,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import fm.liveswitch.vp8.Fragment;
+
 public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.MyViewHolder> {
     private List<Streams> mDataset;
     public static FavoriteAdapter.InteractWithRecyclerView interact;
+//    Fragment frag;
+    Activity act;
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public FavoriteAdapter(List<Streams> myDataset, InteractWithRecyclerView ctx) {
+    public FavoriteAdapter(List<Streams> myDataset, InteractWithRecyclerView frag, Activity activity) {
         mDataset = myDataset;
-        interact = ctx;
+        interact = frag;
+        this.act = activity;
     }
 
     // Create new views (invoked by the layout manager)
@@ -38,6 +46,9 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.MyView
     public void onBindViewHolder(final FavoriteAdapter.MyViewHolder holder, final int position) {
         Streams streams = mDataset.get(position);
         Log.d("demo" ,streams.toString());
+        holder.streamListConstraintLayout.setBackgroundColor(act.getResources().getColor(R.color.colorAccent));
+//        holder.imageFavButton.setBackgroundColor(act.getResources().getColor(R.color.colorAccent));
+//        holder.imageFavButtonFav.setBackgroundColor(act.getResources().getColor(R.color.colorAccent));
 
         holder.channelName.setText(streams.channelName);
         holder.imageFavButton.setVisibility(ImageButton.INVISIBLE);

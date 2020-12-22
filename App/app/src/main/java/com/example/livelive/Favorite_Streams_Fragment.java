@@ -114,14 +114,14 @@ public class Favorite_Streams_Fragment extends Fragment implements FavoriteAdapt
                     recyclerView.setLayoutManager(layoutManager);
 
                     // specify an adapter (see also next example)
-                    mAdapter = new FavoriteAdapter(favArrayList, Favorite_Streams_Fragment.this);
+                    mAdapter = new FavoriteAdapter(favArrayList, Favorite_Streams_Fragment.this,getActivity());
                     recyclerView.setAdapter(mAdapter);
                 }else{
                     favArrayList = new ArrayList<>();
                     recyclerView = getView().findViewById(R.id.favRecyclerView);
                     layoutManager = new LinearLayoutManager(getActivity());
                     recyclerView.setLayoutManager(layoutManager);
-                    mAdapter = new FavoriteAdapter(favArrayList, Favorite_Streams_Fragment.this);
+                    mAdapter = new FavoriteAdapter(favArrayList, Favorite_Streams_Fragment.this,getActivity());
                     recyclerView.setAdapter(mAdapter);
                 }
             }
