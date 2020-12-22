@@ -743,11 +743,24 @@ route.post('/admin/verifyFace',[
 
 
 
-route.get('/user/verifyFace',async(request,response)=>{
+route.post('/user/verifyFace',[
+    body("url1_token","url1 token is required").notEmpty().trim(),
+    body('url2_token',"url2 token is required").notEmpty().trim()
+],async(request,response)=>{
+
+    const err = validationResult(request);
+    if(!err.isEmpty()){
+        closeConnection();
+        return response.status(400).json({"error":err});
+    }
 
     //url mandatory now. Write code to componse firebase URL here.
-    var url1 = "https://firebasestorage.googleapis.com/v0/b/faceverification-8f16a.appspot.com/o/image_"+loggedInUser._id+"_original.jpg?alt=media&token=77c1ddf1-136c-40d9-9ce1-9bd1410d1bf7";
-    var url2 = "https://firebasestorage.googleapis.com/v0/b/faceverification-8f16a.appspot.com/o/image_"+loggedInUser._id+"_copy.jpg?alt=media&token=77c1ddf1-136c-40d9-9ce1-9bd1410d1bf7";
+    // var url1 = "https://firebasestorage.googleapis.com/v0/b/faceverification-8f16a.appspot.com/o/image_"+loggedInUser._id+"_original.jpg?alt=media&token=77c1ddf1-136c-40d9-9ce1-9bd1410d1bf7";
+    // var url2 = "https://firebasestorage.googleapis.com/v0/b/faceverification-8f16a.appspot.com/o/image_"+loggedInUser._id+"_copy.jpg?alt=media&token=77c1ddf1-136c-40d9-9ce1-9bd1410d1bf7";
+
+    var url1 = "https://firebasestorage.googleapis.com/v0/b/faceverification-8f16a.appspot.com/o/image_"+loggedInUser._id+"_original.jpg?alt=media&token="+request.body.url1_token;
+    var url2 = "https://firebasestorage.googleapis.com/v0/b/faceverification-8f16a.appspot.com/o/image_"+loggedInUser._id+"_copy.jpg?alt=media&token=7"+request.body.url2_token;
+
 
     try{
         const res1 = await axios.post('https://face-api-for-amad.cognitiveservices.azure.com/face/v1.0/detect',
