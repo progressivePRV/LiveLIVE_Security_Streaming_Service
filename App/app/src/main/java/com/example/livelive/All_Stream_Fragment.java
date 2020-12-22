@@ -111,7 +111,13 @@ public class All_Stream_Fragment extends Fragment implements AllStreamsAdapter.I
         recyclerView.requestDisallowInterceptTouchEvent(true);
 
         Log.d("demo", "Entering all the stream fragment");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         showProgressBarDialog();
+        streamsList.clear();
         new getUsersStreamChannels().execute();
     }
 
