@@ -20,10 +20,10 @@ public class view_pager2_adapter extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
         switch (position){
             case 0:
-                return new Favorite_Streams_Fragment();
+                return new All_Stream_Fragment();
                 //break;
             case 1:
-                return new All_Stream_Fragment();
+                return new Favorite_Streams_Fragment();
         }
         Log.d(TAG, "createFragment: position is not right in tab selection");
         return null;

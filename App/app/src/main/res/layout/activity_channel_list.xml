@@ -6,11 +6,23 @@
     android:layout_height="match_parent"
     tools:context=".ChannelListActivity">
 
+    <ImageView
+        android:id="@+id/app_icon"
+        android:layout_width="500dp"
+        android:layout_height="500dp"
+        android:alpha="@dimen/icon_fade_value"
+        android:transitionName="icon"
+        android:translationX="150dp"
+        android:translationY="100dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/cam_img" />
+
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout_in_tabActivity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/purple_800"
+        android:background="@color/secondary_proto"
         app:layout_constraintTop_toTopOf="parent"
         app:tabIndicatorColor="@color/white"
         app:tabTextColor="@color/white"

@@ -57,10 +57,11 @@ public class ChannelListActivity extends AppCompatActivity {
 
             switch (position){
                 case 0:
-                    tab.setText(R.string.favorite_streams);
+                    tab.setText(R.string.all_streams);
                     break;
                 case 1:
-                    tab.setText(R.string.all_streams);
+                    tab.setText(R.string.favorite_streams);
+                    break;
             }
         }).attach();
     }

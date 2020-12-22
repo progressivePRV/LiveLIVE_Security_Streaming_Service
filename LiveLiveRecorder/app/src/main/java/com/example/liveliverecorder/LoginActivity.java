@@ -289,6 +289,7 @@ public class LoginActivity extends AppCompatActivity {
                     Log.d("demo",root.toString());
                     String adminChannel = root.getString("adminChannel");
                     Admin admin = gson.fromJson(adminChannel,Admin.class);
+                    admin.token = preferences.getString("TOKEN_KEY", null);
                     Log.d(TAG, "This is admin "+admin.toString());
                     editor = preferences.edit();
                     editor.putString("TOKEN_KEY",admin.token);
