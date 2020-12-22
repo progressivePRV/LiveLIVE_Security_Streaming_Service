@@ -125,7 +125,8 @@ public class MainActivity extends AppCompatActivity implements Helper.InteractWi
     @Override
     public void StartedLocalMediaCapture() {
         // send media to up stream
-        helper.CreateSFU_UpStreamConnection();
+        Log.d(TAG, "StartedLocalMediaCapture: it should not come here for user app aas it is used for getting local media");
+//        helper.CreateSFU_UpStreamConnection();
     }
 
     @Override
@@ -149,6 +150,7 @@ public class MainActivity extends AppCompatActivity implements Helper.InteractWi
         }
         try {
             helper.CloseSFUConnections();
+            finish();
         } catch (Exception e) {
             e.printStackTrace();
             Log.d(TAG, "onStop: exception msg=>"+e.getMessage());
@@ -156,17 +158,17 @@ public class MainActivity extends AppCompatActivity implements Helper.InteractWi
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        try {
-            helper.CloseSFUConnections();
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.d(TAG, "onStop: exception msg=>"+e.getMessage());
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-        }
-    }
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        try {
+//            helper.CloseSFUConnections();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            Log.d(TAG, "onStop: exception msg=>"+e.getMessage());
+//            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+//        }
+//    }
 
     //Async task for getting the stream details from Liveswitch
     public class getStreamDetails extends AsyncTask<String, Void, String> {

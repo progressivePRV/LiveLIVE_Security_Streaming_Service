@@ -183,82 +183,82 @@ public class Helper {
         });
     }
 
-    void InitializeLocalMedia() throws Exception {
-        Log.d(TAG, "InitializeLocalMedia: called");
-        if (ctx == null ){
-            throw new Exception("Initialize the Helper object with Context, i.e. new Helper(context,RelativeLayout)");
-        }
-        this.localMedia =  new LocalMedia(ctx,false,false,aecContext);
-    }
+//    void InitializeLocalMedia() throws Exception {
+//        Log.d(TAG, "InitializeLocalMedia: called");
+//        if (ctx == null ){
+//            throw new Exception("Initialize the Helper object with Context, i.e. new Helper(context,RelativeLayout)");
+//        }
+//        this.localMedia =  new LocalMedia(ctx,false,false,aecContext);
+//    }
 
-    void StartLocalMediaCapture() throws Exception {
-        Log.d(TAG, "StartLocalMediaCapture: called");
-        if (this.localMedia ==  null){
-            throw new Exception("Initialize the LocalMedia first, i.e. call InitializeLocalMedia() function");
-        }
-        if (this.relativeLayout ==  null){
-            throw new Exception("RelativeLayout can't be null, pass RelativeLayout in constructor, i.e.  new Helper(context,RelativeLayout)");
-        }
-        this.localMedia.start().then((fm.liveswitch.LocalMedia lm) -> {
-//            System.out.println("media capture started");
-            Log.d(TAG, "StartLocalMediaCapture: successful");
-            interact.StartedLocalMediaCapture();
-        }).fail((Exception ex) -> {
-            Log.d(TAG, "StartLocalMediaCapture: failed msg=>"+ex.getMessage());
-//            System.out.println(ex.getMessage());
-        });
-        mainActivity.runOnUiThread(()->{
-            this.layoutManager =  new LayoutManager(this.relativeLayout);
-            layoutManager.setLocalView(localMedia.getView());
-//            layoutManager.layout();
-        });
-    }
+//    void StartLocalMediaCapture() throws Exception {
+//        Log.d(TAG, "StartLocalMediaCapture: called");
+//        if (this.localMedia ==  null){
+//            throw new Exception("Initialize the LocalMedia first, i.e. call InitializeLocalMedia() function");
+//        }
+//        if (this.relativeLayout ==  null){
+//            throw new Exception("RelativeLayout can't be null, pass RelativeLayout in constructor, i.e.  new Helper(context,RelativeLayout)");
+//        }
+//        this.localMedia.start().then((fm.liveswitch.LocalMedia lm) -> {
+////            System.out.println("media capture started");
+//            Log.d(TAG, "StartLocalMediaCapture: successful");
+//            interact.StartedLocalMediaCapture();
+//        }).fail((Exception ex) -> {
+//            Log.d(TAG, "StartLocalMediaCapture: failed msg=>"+ex.getMessage());
+////            System.out.println(ex.getMessage());
+//        });
+//        mainActivity.runOnUiThread(()->{
+//            this.layoutManager =  new LayoutManager(this.relativeLayout);
+//            layoutManager.setLocalView(localMedia.getView());
+////            layoutManager.layout();
+//        });
+//    }
 
-    void stopLocalMediaCapture() throws Exception {
-        Log.d(TAG, "stopLocalMediaCapture: called");
-        if (this.localMedia == null) {
-            throw new Exception("Initialize the LocalMedia first, i.e. call InitializeLocalMedia() function");
-        }
-        this.localMedia.stop().then((fm.liveswitch.LocalMedia lm) -> {
-//            System.out.println("media capture stopped");
-            Log.d(TAG, "stopLocalMediaCapture: successful");
-            mainActivity.runOnUiThread(()->{
-                layoutManager.unsetLocalView();
-            });
-            this.localMedia.destroy();
-            this.localMedia = null;
-            // after this leave the channel
-            try {
-                LeaveAChannel();
-            } catch (Exception e) {
-                e.printStackTrace();
-                Log.d(TAG, "stopLocalMediaCapture: exception while leaving the channel e =>"+e.getMessage());
-            }
+//    void stopLocalMediaCapture() throws Exception {
+//        Log.d(TAG, "stopLocalMediaCapture: called");
+//        if (this.localMedia == null) {
+//            throw new Exception("Initialize the LocalMedia first, i.e. call InitializeLocalMedia() function");
+//        }
+//        this.localMedia.stop().then((fm.liveswitch.LocalMedia lm) -> {
+////            System.out.println("media capture stopped");
+//            Log.d(TAG, "stopLocalMediaCapture: successful");
+//            mainActivity.runOnUiThread(()->{
+//                layoutManager.unsetLocalView();
+//            });
+//            this.localMedia.destroy();
+//            this.localMedia = null;
+//            // after this leave the channel
+//            try {
+//                LeaveAChannel();
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//                Log.d(TAG, "stopLocalMediaCapture: exception while leaving the channel e =>"+e.getMessage());
+//            }
+//
+//        }).fail((Exception ex) -> {
+////            System.out.println(ex.getMessage());
+//            Log.d(TAG, "stopLocalMediaCapture: failed msg=>" + ex.getMessage());
+//        });
+//
+//    }
 
-        }).fail((Exception ex) -> {
-//            System.out.println(ex.getMessage());
-            Log.d(TAG, "stopLocalMediaCapture: failed msg=>" + ex.getMessage());
-        });
 
-    }
-
-
-    void CreateSFU_UpStreamConnection(){
-        Log.d(TAG, "CreateSFU_UpStreamConnection: called");
-        fm.liveswitch.AudioStream audioStream = new fm.liveswitch.AudioStream(localMedia, null);
-        fm.liveswitch.VideoStream videoStream = new fm.liveswitch.VideoStream(localMedia, null);
-        SFU_up_connection = channel.createSfuUpstreamConnection(audioStream, videoStream);
-//        connection.setIceServers(...);
-//        connection.DisableAutomaticIceServers = false;
-        SFU_up_connection.open().then((Object result) -> {
-            Log.d(TAG, "CreateSFU_UpStreamConnection: successful");
-//            System.out.println("upstream connection established");
-            interact.CreatedSFU_UpStreamConnection();
-        }).fail((Exception ex) -> {
-            System.out.println("an error occurred");
-            Log.d(TAG, "CreateSFU_UpStreamConnection: failed msg=>" + ex.getMessage());
-        });
-    }
+//    void CreateSFU_UpStreamConnection(){
+//        Log.d(TAG, "CreateSFU_UpStreamConnection: called");
+//        fm.liveswitch.AudioStream audioStream = new fm.liveswitch.AudioStream(localMedia, null);
+//        fm.liveswitch.VideoStream videoStream = new fm.liveswitch.VideoStream(localMedia, null);
+//        SFU_up_connection = channel.createSfuUpstreamConnection(audioStream, videoStream);
+////        connection.setIceServers(...);
+////        connection.DisableAutomaticIceServers = false;
+//        SFU_up_connection.open().then((Object result) -> {
+//            Log.d(TAG, "CreateSFU_UpStreamConnection: successful");
+////            System.out.println("upstream connection established");
+//            interact.CreatedSFU_UpStreamConnection();
+//        }).fail((Exception ex) -> {
+//            System.out.println("an error occurred");
+//            Log.d(TAG, "CreateSFU_UpStreamConnection: failed msg=>" + ex.getMessage());
+//        });
+//    }
 
     void CreateSFU_DownStreamConnection(){
         Log.d(TAG, "CreateSFU_DownStreamConnection: called");
@@ -312,28 +312,33 @@ public class Helper {
                 mainActivity.runOnUiThread(()->{
                     layoutManager.removeRemoteViews();
                 });
+                try {
+                    LeaveAChannel();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 //                System.out.println("connection closed");
             }).fail((Exception ex) -> {
                 Log.d(TAG, "CloseSFUConnections: failed to close SFU_down_connection, msg=>"+ex.getMessage());
 //                System.out.println("an error occurred");
             });
         }
-        if (SFU_up_connection!=null) {
-            // stopping the preview
-            SFU_up_connection.close().then((Object result) -> {
-                Log.d(TAG, "CloseSFUConnections: SFU_up_connection.close() successful");
-                try {
-                    stopLocalMediaCapture();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Log.d(TAG, "CloseSFUConnections: e=>"+e.getMessage());
-                }
-//                System.out.println("connection closed");
-            }).fail((Exception ex) -> {
-                Log.d(TAG, "CloseSFUConnections: failed to close SFU_up_connection, msg=>"+ex.getMessage());
-//                System.out.println("an error occurred");
-            });
-        }
+//        if (SFU_up_connection!=null) {
+//            // stopping the preview
+//            SFU_up_connection.close().then((Object result) -> {
+//                Log.d(TAG, "CloseSFUConnections: SFU_up_connection.close() successful");
+//                try {
+//                    stopLocalMediaCapture();
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                    Log.d(TAG, "CloseSFUConnections: e=>"+e.getMessage());
+//                }
+////                System.out.println("connection closed");
+//            }).fail((Exception ex) -> {
+//                Log.d(TAG, "CloseSFUConnections: failed to close SFU_up_connection, msg=>"+ex.getMessage());
+////                System.out.println("an error occurred");
+//            });
+//        }
     }
 
     interface InteractWithActivity{

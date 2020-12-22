@@ -275,68 +275,69 @@ public class Helper {
         });
     }
 
-    void CreateSFU_DownStreamConnection(){
-        Log.d(TAG, "CreateSFU_DownStreamConnection: called");
-        Log.d(TAG, "CreateSFU_DownStreamConnection: called, listening for remote up stream connection, i.e. waiting for another device to send the stream.");
-        channel.addOnRemoteUpstreamConnectionOpen((fm.liveswitch.ConnectionInfo remoteConnectionInfo) -> {
-            Log.d(TAG, "CreateSFU_DownStreamConnection: got a remote connection");
-            Log.d(TAG, "CreateSFU_DownStreamConnection: counts streams=>"+channel.getRemoteUpstreamConnectionInfos().length);
-            // as layout manager is not set
-            Log.d(TAG, "CreateSFU_DownStreamConnection: setting layout manager");
-            remoteMedia = new RemoteMedia(this.ctx,false,false,this.aecContext);
-            mainActivity.runOnUiThread(()->{
-                this.layoutManager =  new LayoutManager(this.relativeLayout);
-                layoutManager.addRemoteView(remoteMedia.getId(), remoteMedia.getView());
-            });
-            Log.d(TAG, "CreateSFU_DownStreamConnection: done adding remote view in mainActivity");
-//            layoutManager.addRemoteView(remoteMedia.getId(), remoteMedia.getView());
-//    ...
-            fm.liveswitch.AudioStream audioStream = new AudioStream(null, remoteMedia);
-            fm.liveswitch.VideoStream videoStream = new VideoStream(null, remoteMedia);
-            SFU_down_connection = channel.createSfuDownstreamConnection(remoteConnectionInfo, audioStream, videoStream);
-//            connection.setIceServers(...);
-//            connection.DisableAutomaticIceServers = false;
-            SFU_down_connection.open().then((Object result) -> {
-                Log.d(TAG, "CreateSFU_DownStreamConnection:  successful");
-//                System.out.println("downstream connection established");
-                interact.CreatedSFU_DownStreamConnection();
-            }).fail((Exception ex) -> {
-                Log.d(TAG, "CreateSFU_DownStreamConnection:  failed msg=>" + ex.getMessage());
-//                System.out.println("an error occurred");
-            });
-            /////////// tear down
-            SFU_down_connection.addOnStateChange((fm.liveswitch.ManagedConnection c) -> {
-                if (c.getState() == fm.liveswitch.ConnectionState.Closing || c.getState() == fm.liveswitch.ConnectionState.Failing) {
-                    mainActivity.runOnUiThread(()->{
-                        layoutManager.removeRemoteView(remoteMedia.getId());
-                    });
-                    Log.d(TAG, "CreateSFU_DownStreamConnection: SFU_down_connection.addOnStateChange called");
-                }
-            });
-
-        });
-    }
+//    void CreateSFU_DownStreamConnection(){
+//        Log.d(TAG, "CreateSFU_DownStreamConnection: called");
+//        Log.d(TAG, "CreateSFU_DownStreamConnection: called, listening for remote up stream connection, i.e. waiting for another device to send the stream.");
+//        channel.addOnRemoteUpstreamConnectionOpen((fm.liveswitch.ConnectionInfo remoteConnectionInfo) -> {
+//            Log.d(TAG, "CreateSFU_DownStreamConnection: got a remote connection");
+//            Log.d(TAG, "CreateSFU_DownStreamConnection: counts streams=>"+channel.getRemoteUpstreamConnectionInfos().length);
+//            // as layout manager is not set
+//            Log.d(TAG, "CreateSFU_DownStreamConnection: setting layout manager");
+//            remoteMedia = new RemoteMedia(this.ctx,false,false,this.aecContext);
+//            mainActivity.runOnUiThread(()->{
+//                this.layoutManager =  new LayoutManager(this.relativeLayout);
+//                layoutManager.addRemoteView(remoteMedia.getId(), remoteMedia.getView());
+//            });
+//            Log.d(TAG, "CreateSFU_DownStreamConnection: done adding remote view in mainActivity");
+////            layoutManager.addRemoteView(remoteMedia.getId(), remoteMedia.getView());
+////    ...
+//            fm.liveswitch.AudioStream audioStream = new AudioStream(null, remoteMedia);
+//            fm.liveswitch.VideoStream videoStream = new VideoStream(null, remoteMedia);
+//            SFU_down_connection = channel.createSfuDownstreamConnection(remoteConnectionInfo, audioStream, videoStream);
+////            connection.setIceServers(...);
+////            connection.DisableAutomaticIceServers = false;
+//            SFU_down_connection.open().then((Object result) -> {
+//                Log.d(TAG, "CreateSFU_DownStreamConnection:  successful");
+////                System.out.println("downstream connection established");
+//                interact.CreatedSFU_DownStreamConnection();
+//            }).fail((Exception ex) -> {
+//                Log.d(TAG, "CreateSFU_DownStreamConnection:  failed msg=>" + ex.getMessage());
+////                System.out.println("an error occurred");
+//            });
+//            /////////// tear down
+//            SFU_down_connection.addOnStateChange((fm.liveswitch.ManagedConnection c) -> {
+//                if (c.getState() == fm.liveswitch.ConnectionState.Closing || c.getState() == fm.liveswitch.ConnectionState.Failing) {
+//                    mainActivity.runOnUiThread(()->{
+//                        layoutManager.removeRemoteView(remoteMedia.getId());
+//                    });
+//                    Log.d(TAG, "CreateSFU_DownStreamConnection: SFU_down_connection.addOnStateChange called");
+//                }
+//            });
+//
+//        });
+//    }
 
     void CloseSFUConnections(){
         Log.d(TAG, "CloseSFUConnections:  called");
-        if (SFU_down_connection!=null){
-            SFU_down_connection.close().then((Object result) -> {
-                Log.d(TAG, "CloseSFUConnections: SFU_down_connection.close() successful");
-                mainActivity.runOnUiThread(()->{
-                    layoutManager.removeRemoteViews();
-                });
-//                System.out.println("connection closed");
-            }).fail((Exception ex) -> {
-                Log.d(TAG, "CloseSFUConnections: failed to close SFU_down_connection, msg=>"+ex.getMessage());
-//                System.out.println("an error occurred");
-            });
-        }
+//        if (SFU_down_connection!=null){
+//            SFU_down_connection.close().then((Object result) -> {
+//                Log.d(TAG, "CloseSFUConnections: SFU_down_connection.close() successful");
+//                mainActivity.runOnUiThread(()->{
+//                    layoutManager.removeRemoteViews();
+//                });
+////                System.out.println("connection closed");
+//            }).fail((Exception ex) -> {
+//                Log.d(TAG, "CloseSFUConnections: failed to close SFU_down_connection, msg=>"+ex.getMessage());
+////                System.out.println("an error occurred");
+//            });
+//        }
         if (SFU_up_connection!=null) {
             // stopping the preview
             SFU_up_connection.close().then((Object result) -> {
                 Log.d(TAG, "CloseSFUConnections: SFU_up_connection.close() successful");
                 try {
                     stopLocalMediaCapture();
+                    LeaveAChannel();
                 } catch (Exception e) {
                     e.printStackTrace();
                     Log.d(TAG, "CloseSFUConnections: e=>"+e.getMessage());
