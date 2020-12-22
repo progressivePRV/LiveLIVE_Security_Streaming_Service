@@ -2,6 +2,7 @@ package com.example.livelive;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,9 +10,20 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
 public class MainActivity extends AppCompatActivity implements Helper.InteractWithActivity {
 
     private static final String TAG = "okay_MainActivity";
+    private ProgressDialog progressDialog;
 //    boolean isUpStreamRequested = false;
     Helper helper;
 
@@ -22,7 +34,9 @@ public class MainActivity extends AppCompatActivity implements Helper.InteractWi
 
         Log.d(TAG, "onCreate: called");
 
-        StartSFUDownStream();
+        showProgressBarDialog();
+        new getStreamDetails().execute();
+
 
 //        findViewById(R.id.btn_upstream).setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -50,15 +64,13 @@ public class MainActivity extends AppCompatActivity implements Helper.InteractWi
 //        }
 //    }
 
-    void StartSFUDownStream(){
+    void StartSFUDownStream(String sharedSecret, String applicationId){
         helper = new Helper(this,this,findViewById(R.id.preivew_container_inMain));
         String channel_id = getIntent().getExtras().getString("channelId");
-        if(channel_id.equals("")){
-            Toast.makeText(this, "Please enter a channel name to downstream", Toast.LENGTH_SHORT).show();
-        }else{
+
             helper.SetChannelId(channel_id);
             helper.SetUserId("this_is_a_Down_stream_user");
-            helper.GetClientToken();
+            helper.GetClientToken(sharedSecret, applicationId);
             try {
                 helper.RegisterTheClient();
             } catch (Exception e) {
@@ -66,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements Helper.InteractWi
                 Log.d(TAG, "StartSFUDownStream: exception msg=>"+e.getMessage());
                 Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
-        }
+
     }
 
     @Override
@@ -116,5 +128,76 @@ public class MainActivity extends AppCompatActivity implements Helper.InteractWi
             Log.d(TAG, "onStop: exception msg=>"+e.getMessage());
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    //Async task for getting the stream details from Liveswitch
+    public class getStreamDetails extends AsyncTask<String, Void, String> {
+        boolean isStatus = true;
+
+
+        @Override
+        protected String doInBackground(String... strings) {
+            final OkHttpClient client = new OkHttpClient();
+            Request request = new Request.Builder()
+                    .url("https://api.liveswitch.io/ApplicationConfigs")
+                    .header("X-API-Key", "83-42-34-66-19-9c-d9-e7-5c-d1-a2-88-8c-25-eb-6b")
+                    .build();
+            String responseValue = null;
+            try (Response response = client.newCall(request).execute()) {
+                if(response.isSuccessful()){
+                    isStatus = true;
+                }else{
+                    isStatus = false;
+                }
+                Log.d("demo"," "+response.isSuccessful());
+                responseValue = response.body().string();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return responseValue;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            //Log.d("demo",s);
+            if(s!=null){
+                JSONObject root = null;
+                try {
+                    root = new JSONObject(s);
+                    hideProgressBarDialog();
+                    if(isStatus){
+                        JSONArray streamingDetails = root.getJSONArray("value");
+                        JSONObject details = (JSONObject) streamingDetails.get(0);
+                        Log.d("details", details.toString());
+                        String sharedSecret = details.getString("sharedSecret");
+                        String applicationId = details.getString("applicationId");
+
+                        //starting the upstream here
+                        StartSFUDownStream(sharedSecret, applicationId);
+                    }else{
+                        Toast.makeText(MainActivity.this, "Error occured in fetching streaming details. Please try again.", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    //for showing the progress dialog
+    public void showProgressBarDialog()
+    {
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Loading");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+    }
+
+    //for hiding the progress dialog
+    public void hideProgressBarDialog()
+    {
+        progressDialog.dismiss();
     }
 }
