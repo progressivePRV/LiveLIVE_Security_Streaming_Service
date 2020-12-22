@@ -148,6 +148,7 @@ public class MainActivity extends AppCompatActivity implements Helper.InteractWi
     @Override
     protected void onStop() {
         super.onStop();
+        cdt.cancel();
         if (helper==null){
             return;
         }
