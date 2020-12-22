@@ -41,8 +41,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
+import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class LoginActivity extends AppCompatActivity {
@@ -182,7 +184,24 @@ public class LoginActivity extends AppCompatActivity {
                     Log.d("demo",downloadUri+"");
                     //calling the face verification api. Upload of the face is successful
                     showProgressBarDialog();
-                    new getFaceValidationAsync(downloadUri.toString()).execute();
+
+                    //getting the downloadable URL for the original image
+                    String originalImagePath = "image_"+preferences.getString("ID", null)+"_original.jpg";
+                    final StorageReference originalImageRepo = storageRef.child(imagePath);
+                    originalImageRepo.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Uri> task) {
+                            Uri OrignalDownloadUri = task.getResult();
+                            new getFaceValidationAsync(OrignalDownloadUri.toString(), downloadUri.toString()).execute();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            hideProgressBarDialog();
+                            Toast.makeText(LoginActivity.this, "Sorry some error occured. Please try again.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
                 }else{
                     hideProgressBarDialog();
                     Toast.makeText(LoginActivity.this, "Upload Failure", Toast.LENGTH_SHORT).show();
@@ -302,19 +321,38 @@ public class LoginActivity extends AppCompatActivity {
     public class getFaceValidationAsync extends AsyncTask<String, Void, String> {
 
         String downloadURI;
+        String originalURI;
         boolean isStatus =true;
 
-        public getFaceValidationAsync(String downloadURI) {
+        public getFaceValidationAsync(String orignalURI, String downloadURI) {
             this.downloadURI = downloadURI;
+            this.originalURI = orignalURI;
         }
 
         @Override
         protected String doInBackground(String... strings) {
             final OkHttpClient client = new OkHttpClient();
 
+            String[] tempUrl = originalURI.split("&");
+
+            originalURI = tempUrl[tempUrl.length - 1];
+            String originalToken = originalURI.replace("token=","");
+
+            tempUrl = downloadURI.split("&");
+            downloadURI = tempUrl[tempUrl.length-1];
+            String downloadToken = downloadURI.replace("token=","");
+
+            Log.d("demo", "The urls are : "+originalURI +" download : "+downloadURI);
+
+            RequestBody formBody = new FormBody.Builder()
+                    .add("url1_token",originalToken)
+                    .add("url2_token",downloadToken)
+                    .build();
+
             Request request = new Request.Builder()
                     .url(getResources().getString(R.string.endPointUrl)+"api/v1/user/verifyFace")
                     .header("Authorization", "Bearer "+ preferences.getString("TOKEN_KEY", null))
+                    .post(formBody)
                     .build();
 
             String responseValue = null;
