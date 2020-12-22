@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">LiveLIVEUsersApp</string>
+    <string name="app_name">LiveLIVE Users</string>
     <string name="endPointUrl">http://206.81.0.65:3000/</string>
     <string name="Email">Email</string>
     <string name="password">Password</string>

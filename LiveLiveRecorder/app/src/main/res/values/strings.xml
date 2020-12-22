@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">LiveLive(Recorder)</string>
+    <string name="app_name">LiveLive Admin</string>
     <string name="endPointUrl">http://206.81.0.65:3000/</string>
     <string name="Email">Username</string>
     <string name="password">Password</string>
@@ -18,7 +18,7 @@
     <string name="Age">Age</string>
     <string name="edit_stream">Edit Stream</string>
     <string name="stop_broadcast">Stop Broadcast</string>
-    <string name="app_name_in_login">LiveLIVE Recorder</string>
+    <string name="app_name_in_login">LiveLIVE Admin</string>
     <string name="channel_name_hint">Channel Name</string>
     <string name="app_icon_desc">faded app icon a visual conetent</string>
     <string name="enter_email">Enter Email</string>
