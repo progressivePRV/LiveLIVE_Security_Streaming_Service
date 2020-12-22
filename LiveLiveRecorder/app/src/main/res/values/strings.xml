@@ -24,4 +24,5 @@
     <string name="enter_email">Enter Email</string>
 
     <string name="exit_to_app">Logout</string>
+    <string name="channel_name">Channel Name</string>
 </resources>

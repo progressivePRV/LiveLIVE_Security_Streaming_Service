@@ -114,6 +114,7 @@ public class ChannelInfo extends AppCompatActivity implements UserListAdapter.In
 
         ///////////////// get ui components
         channelName =  findViewById(R.id.channel_name_inChannelInfo);
+//        channelName.setBackgroundResource(R.color.colorPrimary);
         chipGroup = findViewById(R.id.chip_group_in_channelInfo);
 //        listView = findViewById(R.id.listview_inChannelInfo);
 
