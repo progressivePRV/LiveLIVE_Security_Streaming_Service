@@ -176,6 +176,10 @@ security challenges people face in this pandemic. It will help people adapt fast
 NORMAL, making it a popular app, as the security of our loved ones and our property/valuables is a primary
 concern for everyone.
 
+## More information 
+
+For more information about this application, please visit out [wiki page](https://github.com/progressivePRV/LiveLIVE_Security_Streaming_Service/wiki)
+
 ## External Links:
 
 [Project Presentation](https://drive.google.com/file/d/1mMr2Ajiu2_xBMRDU-ne58PMmwaSxWZWP/view?usp=sharing)
