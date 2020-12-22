@@ -14,4 +14,5 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="search_channel">Search Channels By Name</string>
     <string name="app_name_in_login">LiveLIVE User</string>
+    <string name="time_txt_dec">The App will close the connection if there is no remote deivce to broadcast on this channel</string>
 </resources>

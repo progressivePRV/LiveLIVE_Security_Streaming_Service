@@ -5,9 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -26,6 +28,8 @@ public class MainActivity extends AppCompatActivity implements Helper.InteractWi
     private ProgressDialog progressDialog;
 //    boolean isUpStreamRequested = false;
     Helper helper;
+    TextView timer_tv;
+    CountDownTimer cdt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +38,22 @@ public class MainActivity extends AppCompatActivity implements Helper.InteractWi
 
         Log.d(TAG, "onCreate: called");
 
+        timer_tv = findViewById(R.id.time_tv);
         showProgressBarDialog();
         new getStreamDetails().execute();
 
+        cdt =  new CountDownTimer(30000,1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                Log.d(TAG, "onTick: ");
+                timer_tv.setText(millisUntilFinished / 1000+" s");
+            }
+            @Override
+            public void onFinish() {
+                finish();
+            }
+        };
+        cdt.start();
 
 //        findViewById(R.id.btn_upstream).setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -117,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements Helper.InteractWi
 
     @Override
     public void CreatedSFU_DownStreamConnection() {
-
+        cdt.cancel();
     }
 
 
