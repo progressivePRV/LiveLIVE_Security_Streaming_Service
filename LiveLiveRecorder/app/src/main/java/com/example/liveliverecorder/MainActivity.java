@@ -70,10 +70,10 @@ public class MainActivity extends AppCompatActivity implements Helper.InteractWi
             public void onClick(View v) {
 //                startSFUUpstream();
 //                onDestroy();
-
+                finish();
                 //Updating the broadcast status and then will finish the screen
-                showProgressBarDialog();
-                new setBroadcastingStatus().execute();
+//                showProgressBarDialog();
+//                new setBroadcastingStatus().execute();
             }
         });
     }
@@ -148,8 +148,10 @@ public class MainActivity extends AppCompatActivity implements Helper.InteractWi
             return;
         }
         try {
-            showProgressBarDialog();
+//            showProgressBarDialog();
+//            showProgressBarDialog();
             helper.CloseSFUConnections();
+            new setBroadcastingStatus().execute();
         } catch (Exception e) {
             e.printStackTrace();
             Log.d(TAG, "onStop: exception msg=>"+e.getMessage());
@@ -282,7 +284,7 @@ public class MainActivity extends AppCompatActivity implements Helper.InteractWi
                 JSONObject root = null;
                 try {
                     root = new JSONObject(s);
-                    hideProgressBarDialog();
+//                    hideProgressBarDialog();
                     if(isStatus){
                         if(root.getString("result").equals("broadcasting updated")){
                             //It means broadcasting status has been updated. So the live stream can be ended now.
@@ -298,10 +300,10 @@ public class MainActivity extends AppCompatActivity implements Helper.InteractWi
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        //Updating the broadcast status and then will finish the screen
-        showProgressBarDialog();
-        new setBroadcastingStatus().execute();
-    }
+//    @Override
+//    public void onBackPressed() {
+//        //Updating the broadcast status and then will finish the screen
+//        showProgressBarDialog();
+//        new setBroadcastingStatus().execute();
+//    }
 }
