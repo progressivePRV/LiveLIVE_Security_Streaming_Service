@@ -9,6 +9,18 @@
     tools:context=".ChannelInfo">
 
     <ImageView
+        android:id="@+id/app_icon"
+        android:layout_width="500dp"
+        android:layout_height="500dp"
+        android:alpha="@dimen/icon_fade_value"
+        android:transitionName="icon"
+        android:translationX="150dp"
+        android:translationY="100dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/cam_img" />
+
+    <ImageView
         android:id="@+id/delete_img_inChannelInfo"
         android:layout_width="30dp"
         android:layout_height="30dp"
@@ -63,18 +75,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/channel_name_inChannelInfo" />
-
-    <ImageView
-        android:id="@+id/app_icon"
-        android:layout_width="500dp"
-        android:layout_height="500dp"
-        android:alpha="@dimen/icon_fade_value"
-        android:transitionName="icon"
-        android:translationX="150dp"
-        android:translationY="100dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/cam_img" />
 
     <com.google.android.material.chip.ChipGroup
         android:id="@+id/chip_group_in_channelInfo"

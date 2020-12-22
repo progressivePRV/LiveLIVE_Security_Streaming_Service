@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import android.app.ActivityOptions;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -97,6 +98,7 @@ public class LoginActivity extends AppCompatActivity {
                     showProgressBarDialog();
                     new getValidatedAsync(loginText, passwordText).execute();
                 }
+
             }
         });
     }
@@ -169,6 +171,7 @@ public class LoginActivity extends AppCompatActivity {
                     throw task.getException();
                 }
                 // Continue with the task to get the download URL
+
                 return imageRepo.getDownloadUrl();
             }
         }).addOnCompleteListener(new OnCompleteListener<Uri>() {
@@ -371,7 +374,9 @@ public class LoginActivity extends AppCompatActivity {
                 // File deleted successfully
                 hideProgressBarDialog();
                 Intent intent = new Intent(LoginActivity.this, ChannelListActivity.class);
-                startActivity(intent);
+//                startActivity(intent);
+                ActivityOptions activityOptions =  ActivityOptions.makeSceneTransitionAnimation(LoginActivity.this,findViewById(R.id.app_icon_iv),"icon");
+                startActivity(intent, activityOptions.toBundle());
                 finish();
                 Log.d(TAG, "onSuccess: deleted file");
             }

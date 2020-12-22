@@ -26,6 +26,7 @@ import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -284,7 +285,15 @@ public class CreateNewChannelActivity extends AppCompatActivity implements UserL
                             finish();
                         }
                     }else{
-                        Toast.makeText(CreateNewChannelActivity.this, root.getString("error"), Toast.LENGTH_SHORT).show();
+                        try{
+                            JSONObject tobj = root.getJSONObject("error");
+                                JSONArray ar = tobj.getJSONArray("errors");
+                                JSONObject obj = (JSONObject) ar.get(0);
+                                String msg = obj.getString("msg");
+                                Toast.makeText(CreateNewChannelActivity.this, msg, Toast.LENGTH_SHORT).show();
+                        }catch (Exception e){
+                            Toast.makeText(CreateNewChannelActivity.this, root.getString("error"), Toast.LENGTH_SHORT).show();
+                        }
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
