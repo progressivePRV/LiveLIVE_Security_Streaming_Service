@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements Helper.InteractWi
     private ProgressDialog progressDialog;
 //    boolean isUpStreamRequested = false;
     Helper helper;
-    TextView timer_tv;
+    TextView timer_tv,time_dec;
     CountDownTimer cdt;
 
     @Override
@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements Helper.InteractWi
         Log.d(TAG, "onCreate: called");
 
         timer_tv = findViewById(R.id.time_tv);
+        time_dec = findViewById(R.id.time_txt_dec);
         showProgressBarDialog();
         new getStreamDetails().execute();
 
@@ -135,6 +136,8 @@ public class MainActivity extends AppCompatActivity implements Helper.InteractWi
     @Override
     public void CreatedSFU_DownStreamConnection() {
         cdt.cancel();
+        timer_tv.setVisibility(View.GONE);
+        time_dec.setVisibility(View.GONE);
     }
 
 
